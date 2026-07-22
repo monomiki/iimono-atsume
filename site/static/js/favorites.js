@@ -22,9 +22,11 @@
         const payload = JSON.parse(button.dataset.favorite || "{}");
         if (favoriteIds.has(payload.item_id)) {
           button.classList.add("is-favorited");
-          button.textContent = "★ Favorited";
+          button.innerHTML = '<span aria-hidden="true">★</span><span class="favorite-button__label"> Favorited</span>';
+          button.closest(".post-card")?.setAttribute("data-favorite-state", "true");
         }
       });
+      window.dispatchEvent(new CustomEvent("favorite-state-change"));
     } catch (error) {
       setUnavailable();
     }
@@ -46,16 +48,18 @@
       });
       if (!response.ok) throw new Error("favorite failed");
       button.classList.add("is-favorited");
-      button.textContent = "★ Favorited";
+      button.innerHTML = '<span aria-hidden="true">★</span><span class="favorite-button__label"> Favorited</span>';
+      button.closest(".post-card")?.setAttribute("data-favorite-state", "true");
+      window.dispatchEvent(new CustomEvent("favorite-state-change"));
     } catch (error) {
       button.textContent = "Favorite失敗";
-      setTimeout(() => { button.textContent = "☆ Favorite"; }, 1800);
+      setTimeout(() => { button.innerHTML = '<span aria-hidden="true">☆</span><span class="favorite-button__label"> Favorite</span>'; }, 1800);
     } finally {
       button.disabled = false;
+      window.dispatchEvent(new CustomEvent("masonry:relayout"));
     }
   }
 
   buttons.forEach((button) => button.addEventListener("click", () => favorite(button)));
   loadFavorites();
 })();
-

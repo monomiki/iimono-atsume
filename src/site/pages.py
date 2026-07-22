@@ -32,35 +32,35 @@ def render_page(title: str, body: str, settings: Settings) -> str:
   </header>
   <main>{body}</main>
   <script src="/assets/js/favorites.js" defer></script>
+  <script src="/assets/js/masonry.js" defer></script>
 </body>
 </html>
 """
 
 
 def daily_body(run_date: str, items: List[SiteItem], stats: Dict, settings: Settings, prev_date: str = "", next_date: str = "") -> str:
-    recommended = [item for item in items if item.destination == "high" or item.score >= 60]
-    normal = [item for item in items if item not in recommended and not item.discovery]
-    discoveries = [item for item in items if item.discovery]
     category_counts = Counter(item.category for item in items)
     source_counts = Counter(item.source for item in items)
     prev_link = f'<a href="/daily/{prev_date}/">前日</a>' if prev_date else '<span>前日</span>'
     next_link = f'<a href="/daily/{next_date}/">翌日</a>' if next_date else '<span>翌日</span>'
+    sorted_items = sorted(items, key=lambda item: (item.destination != "high" and item.score < 60, -item.score, not item.discovery, item.published_at), reverse=False)
     sections = [
         f"""
-<section class="hero">
-  <p class="date">{html.escape(run_date)}</p>
-  <h1>今日の情報収集まとめ</h1>
+<section class="hero compact-hero">
+  <div>
+    <p class="eyebrow">AI DAILY COLLECTION</p>
+    <h1>{html.escape(run_date.replace("-", "."))}</h1>
+  </div>
   <div class="summary-grid">
+    <span>{len(items)} ITEMS</span>
     <span>収集 {stats.get('candidates', len(items))}</span>
-    <span>保存候補 {len(items)}</span>
     <span>重複除外 {stats.get('duplicates', 0)}</span>
   </div>
   <div class="pager">{prev_link}<a href="/">トップ</a>{next_link}</div>
+  {filter_bar(category_counts, source_counts, show_date=False)}
 </section>
 """,
-        render_section("特におすすめ", recommended),
-        render_section("通常候補", normal),
-        render_section("新規発見", discoveries),
+        render_masonry(sorted_items),
         render_count_section("カテゴリ別候補", category_counts),
         render_count_section("情報源別候補", source_counts),
     ]
@@ -69,7 +69,12 @@ def daily_body(run_date: str, items: List[SiteItem], stats: Dict, settings: Sett
 
 def render_section(title: str, items: List[SiteItem]) -> str:
     cards = "\n".join(render_link_card(item) for item in items) or "<p>該当する候補はありません。</p>"
-    return f'<section><h2>{html.escape(title)}</h2><div class="card-grid">{cards}</div></section>'
+    return f'<section><h2>{html.escape(title)}</h2><div class="masonry-grid">{cards}</div></section>'
+
+
+def render_masonry(items: List[SiteItem]) -> str:
+    cards = "\n".join(render_link_card(item) for item in items) or "<p>該当する候補はありません。</p>"
+    return f'<section aria-label="投稿一覧"><div class="masonry-grid" data-masonry>{cards}</div></section>'
 
 
 def render_count_section(title: str, counts: Counter) -> str:
@@ -82,15 +87,15 @@ def index_body(dates: List[str], latest_items: List[SiteItem], all_items: List[S
     source_counts = Counter(item.source for item in all_items)
     latest_date = dates[-1] if dates else ""
     daily_links = "".join(f'<li><a href="/daily/{date}/">{date}</a></li>' for date in reversed(dates[-30:]))
-    latest = render_section("最新の日次まとめ", latest_items[:6])
+    latest = render_masonry(latest_items[:12])
     return f"""
-<section class="hero">
-  <p class="date">最終更新 {html.escape(latest_date or "未生成")}</p>
-  <h1>AIデイリー収集</h1>
-  <div class="filters">
-    <input id="search" type="search" placeholder="日付・カテゴリ・情報源で絞り込み">
-    <label><input id="favorites-only" type="checkbox"> Favorite済み</label>
+<section class="hero compact-hero">
+  <div>
+    <p class="eyebrow">AI DAILY COLLECTION</p>
+    <h1>最新まとめ</h1>
+    <p class="date">最終更新 {html.escape(latest_date or "未生成")}</p>
   </div>
+  {filter_bar(category_counts, source_counts, show_date=True)}
 </section>
 {latest}
 <section><h2>過去の日次まとめ</h2><ul class="archive-list">{daily_links}</ul></section>
@@ -99,3 +104,26 @@ def index_body(dates: List[str], latest_items: List[SiteItem], all_items: List[S
 <section><h2>最近Favoriteしたコンテンツ</h2><p id="recent-favorites">Favorite APIから読み込みます。</p></section>
 """
 
+
+def filter_bar(category_counts: Counter, source_counts: Counter, show_date: bool) -> str:
+    categories = "".join(f'<option value="{html.escape(key, quote=True)}">{html.escape(key)}</option>' for key in sorted(category_counts))
+    sources = "".join(f'<option value="{html.escape(key, quote=True)}">{html.escape(key)}</option>' for key in sorted(source_counts))
+    date_input = '<input id="date-filter" type="date" aria-label="日付">' if show_date else ""
+    return f"""
+<form class="filter-bar" data-filter-form>
+  <div class="filter-segments" role="group" aria-label="表示フィルター">
+    <button type="button" class="filter-chip is-active" data-filter-kind="all">すべて</button>
+    <button type="button" class="filter-chip" data-filter-kind="high">高精度</button>
+    <button type="button" class="filter-chip" data-filter-kind="discovery">新規発見</button>
+    <button type="button" class="filter-chip" data-filter-kind="favorite">Favorite</button>
+  </div>
+  <select id="category-filter" aria-label="カテゴリ"><option value="">カテゴリ</option>{categories}</select>
+  <select id="source-filter" aria-label="情報源"><option value="">情報源</option>{sources}</select>
+  {date_input}
+  <select id="sort-filter" aria-label="並び替え">
+    <option value="score">推薦スコア順</option>
+    <option value="new">新着順</option>
+  </select>
+  <button type="button" class="density-toggle" data-density-toggle>標準表示</button>
+</form>
+""".strip()

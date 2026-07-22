@@ -78,3 +78,4 @@ class SiteItem:
     daily_page: str
     destination: str
     discovery: bool = False
+    images: List[Dict[str, str]] = field(default_factory=list)

@@ -203,11 +203,16 @@ class PipelineTests(unittest.TestCase):
             recs, _, _ = job.recommend()
             result = StaticSiteBuilder(settings).build_daily("2026-07-22", recs[:2], {"candidates": 2, "duplicates": 0})
             html = Path(result["daily_path"]).read_text(encoding="utf-8")
-            self.assertIn("link-card", html)
-            self.assertIn("☆ Favorite", html)
+            self.assertIn("post-card link-card", html)
+            self.assertIn("favorite-button__label", html)
+            self.assertIn("masonry-grid", html)
             self.assertNotIn("discord.example", html)
             self.assertNotIn("secret", html)
-            self.assertIn("@media (max-width: 640px)", (settings.public_dir / "assets" / "css" / "main.css").read_text(encoding="utf-8"))
+            css = (settings.public_dir / "assets" / "css" / "main.css").read_text(encoding="utf-8")
+            js = (settings.public_dir / "assets" / "js" / "masonry.js").read_text(encoding="utf-8")
+            self.assertIn("@media (max-width: 520px)", css)
+            self.assertIn("ResizeObserver", js)
+            self.assertNotIn("discord.example", js)
 
     def test_link_card_contains_candidate_data(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -218,6 +223,8 @@ class PipelineTests(unittest.TestCase):
             card = render_link_card(item)
             self.assertIn(item.title, card)
             self.assertIn(item.item_id, card)
+            self.assertIn("post-card__author", card)
+            self.assertIn("post-card__details", card)
 
     def test_daily_page_url_uses_configured_domain(self):
         settings = make_settings(public_site_domain="イキモノ.コム", public_site_base_url="https://イキモノ.コム")
@@ -250,6 +257,35 @@ class PipelineTests(unittest.TestCase):
             self.assertEqual(service.resend_pending()["sent"], 0)
             rows = job.db.query("SELECT * FROM feedback WHERE action = 'web_favorite'")
             self.assertEqual(len(rows), 1)
+
+    def test_masonry_css_breakpoints_and_fallback_are_present(self):
+        css = Path("site/static/css/main.css").read_text(encoding="utf-8")
+        self.assertIn("grid-template-columns: repeat(auto-fill", css)
+        self.assertIn("grid-auto-rows: var(--masonry-row)", css)
+        self.assertIn("--card-min: 280px", css)
+        self.assertIn("@media (max-width: 520px)", css)
+        self.assertIn("@media (min-width: 1180px)", css)
+        self.assertIn("@media (min-width: 1540px)", css)
+        self.assertNotIn("min-height: 100%", css)
+
+    def test_masonry_js_reacts_to_layout_changing_events(self):
+        js = Path("site/static/js/masonry.js").read_text(encoding="utf-8")
+        self.assertIn("ResizeObserver", js)
+        self.assertIn("MutationObserver", js)
+        self.assertIn("favorite-state-change", js)
+        self.assertIn("details", js)
+        self.assertIn("load", js)
+        self.assertIn("gridRowEnd", js)
+
+    def test_ui_preview_page_contains_mixed_masonry_cards(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            settings = make_settings(tmp)
+            job = DailyJob(settings)
+            recs, _, _ = job.recommend()
+            StaticSiteBuilder(settings).build_daily("2026-07-22", recs[:2], {"candidates": 2, "duplicates": 0})
+            html = (settings.public_dir / "ui-preview" / "index.html").read_text(encoding="utf-8")
+            for label in ["長文カード", "横長画像", "縦長画像", "画像2枚", "動画", "한국어"]:
+                self.assertIn(label, html)
 
 
 if __name__ == "__main__":

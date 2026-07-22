@@ -7,4 +7,5 @@ data/*.db
 data/*.sqlite
 data/*.sqlite3
 public/
+artifacts/
 .DS_Store
