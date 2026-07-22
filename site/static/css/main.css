@@ -162,14 +162,48 @@ h2 { font-size: 1rem; letter-spacing: 0; margin: 0 0 12px; }
 
 .post-card,
 .link-card {
+  --source-accent: var(--accent);
+  --source-accent-soft: var(--accent-soft);
   background: var(--card);
   border: 1px solid var(--card-line);
-  border-left: 4px solid var(--accent);
+  border-left: 4px solid var(--source-accent);
   border-radius: 6px;
   container-type: inline-size;
   min-width: 0;
   overflow: hidden;
   position: relative;
+}
+
+.post-card[data-source-key="x"],
+.post-card[data-source-key="twitter"] {
+  --source-accent: #1d9bf0;
+  --source-accent-soft: rgba(29, 155, 240, .18);
+}
+
+.post-card[data-source-key="instagram"] {
+  --source-accent: #e4405f;
+  --source-accent-soft: rgba(228, 64, 95, .18);
+}
+
+.post-card[data-source-key="youtube"] {
+  --source-accent: #ff0033;
+  --source-accent-soft: rgba(255, 0, 51, .16);
+}
+
+.post-card[data-source-key="vimeo"] {
+  --source-accent: #00adef;
+  --source-accent-soft: rgba(0, 173, 239, .16);
+}
+
+.post-card[data-source-key="web"],
+.post-card[data-source-key="rss"] {
+  --source-accent: #43b581;
+  --source-accent-soft: rgba(67, 181, 129, .16);
+}
+
+.post-card[data-source-key="github"] {
+  --source-accent: #f0f6fc;
+  --source-accent-soft: rgba(240, 246, 252, .12);
 }
 
 .post-card[hidden] { display: none; }
@@ -240,7 +274,7 @@ h2 { font-size: 1rem; letter-spacing: 0; margin: 0 0 12px; }
   white-space: nowrap;
 }
 
-.favorite-button:hover { border-color: var(--accent); color: #d6f4ff; }
+.favorite-button:hover { border-color: var(--source-accent); color: #d6f4ff; }
 .favorite-button[disabled] { cursor: wait; opacity: .62; }
 .favorite-button.is-favorited { border-color: #faa61a; color: #ffd37a; }
 
@@ -301,6 +335,13 @@ h2 { font-size: 1rem; letter-spacing: 0; margin: 0 0 12px; }
   object-fit: contain;
 }
 
+.post-card__media video {
+  background: #06070a;
+  display: block;
+  height: auto;
+  width: 100%;
+}
+
 .post-card__media--count-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .post-card__media--count-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .post-card__media--count-3 figure:first-child { grid-row: span 2; }
@@ -324,15 +365,84 @@ h2 { font-size: 1rem; letter-spacing: 0; margin: 0 0 12px; }
   position: absolute;
 }
 
+.post-card__play-badge {
+  align-items: center;
+  background: rgba(0, 0, 0, .62);
+  border: 1px solid rgba(255, 255, 255, .28);
+  border-radius: 999px;
+  color: white;
+  display: inline-grid;
+  font-size: 11px;
+  font-weight: 900;
+  inset: 50% auto auto 50%;
+  letter-spacing: .08em;
+  min-height: 42px;
+  min-width: 64px;
+  padding: 0 14px;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
 .post-card__video-placeholder {
   align-items: center;
   aspect-ratio: 16 / 9;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, .07), transparent 45%),
+    var(--source-accent-soft),
+    #15171b;
+  border: 1px solid #303641;
+  border-radius: 5px;
   color: var(--muted);
   display: grid;
   font-size: 12px;
   font-weight: 800;
   justify-content: center;
   letter-spacing: .12em;
+  margin: 2px 0 12px;
+  overflow: hidden;
+  text-decoration: none;
+}
+
+.post-card__thumb-placeholder {
+  align-items: end;
+  aspect-ratio: 1.9 / 1;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, .09), transparent 42%),
+    radial-gradient(circle at 84% 20%, var(--source-accent-soft), transparent 34%),
+    #15171b;
+  border: 1px solid #303641;
+  border-radius: 5px;
+  color: #f2f3f5;
+  display: grid;
+  margin: 2px 0 12px;
+  overflow: hidden;
+  padding: 12px;
+  position: relative;
+}
+
+.post-card__thumb-placeholder::before {
+  background: var(--source-accent);
+  content: "";
+  height: 100%;
+  left: 0;
+  opacity: .9;
+  position: absolute;
+  top: 0;
+  width: 4px;
+}
+
+.post-card__thumb-placeholder span {
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: .08em;
+  position: relative;
+}
+
+.post-card__thumb-placeholder[data-source-thumb="instagram"] {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, .08), transparent 40%),
+    linear-gradient(135deg, rgba(245, 133, 41, .26), rgba(221, 42, 123, .2), rgba(81, 91, 212, .18)),
+    #15171b;
 }
 
 .post-card__ai-summary {

@@ -43,6 +43,7 @@ class Candidate:
     published_at: Optional[datetime] = None
     media_type: str = "link"
     image_url: str = ""
+    video_url: str = ""
     domain: str = ""
     discovery: bool = False
     metadata: Dict[str, str] = field(default_factory=dict)
@@ -78,4 +79,5 @@ class SiteItem:
     daily_page: str
     destination: str
     discovery: bool = False
+    video_url: str = ""
     images: List[Dict[str, str]] = field(default_factory=list)

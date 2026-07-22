@@ -23,7 +23,7 @@
       "excerpt": "VRChatワールド向けのビームライト制御システム。2026年7月の大型更新でVRC Light Volumes対応、6灯/12灯構成、配置パターン追加、動画入力の自動検出などが入った実用アセット。",
       "published_at": "2026-07-19T00:00:00+09:00",
       "media_type": "article",
-      "image_url": "",
+      "image_url": "https://public-files.gumroad.com/640mgfng6jo89dgrsgl462q3h4k5",
       "score": 88,
       "category": "vrchat_gimmick",
       "reasons": [
@@ -37,7 +37,13 @@
       "daily_page": "2026-07-22",
       "destination": "high",
       "discovery": false,
-      "images": []
+      "video_url": "",
+      "images": [
+        {
+          "url": "https://public-files.gumroad.com/640mgfng6jo89dgrsgl462q3h4k5",
+          "alt": "BeamLight Control System(VRChat)"
+        }
+      ]
     },
     {
       "item_id": "raindrop_1797895925",
@@ -49,7 +55,7 @@
       "excerpt": "タイポグラフィを編集、出版、思想の文脈で扱う記事。反デザインやニュータイポグラフィの視点があり、単なるTipsではなく資料として読み返せる内容。",
       "published_at": "2026-07-15T00:00:00+09:00",
       "media_type": "article",
-      "image_url": "",
+      "image_url": "https://admin.itsnicethat.com/images/zKeVn3NVxn6vqV5tr8NBjbCMSx4=/279894/width-1440/matter-of-publication-itsnicethat-5.jpg",
       "score": 86,
       "category": "typography_graphic",
       "reasons": [
@@ -63,7 +69,13 @@
       "daily_page": "2026-07-22",
       "destination": "high",
       "discovery": false,
-      "images": []
+      "video_url": "",
+      "images": [
+        {
+          "url": "https://admin.itsnicethat.com/images/zKeVn3NVxn6vqV5tr8NBjbCMSx4=/279894/width-1440/matter-of-publication-itsnicethat-5.jpg",
+          "alt": "Matter of New: New Typography"
+        }
+      ]
     },
     {
       "item_id": "raindrop_1797895926",
@@ -75,7 +87,7 @@
       "excerpt": "モスクワの花屋インテリア。青いフォーム天井、再生プラスチック家具、ラフな既存壁の対比が強く、店舗動線を花束制作のパフォーマンスとして見せている。",
       "published_at": "2026-07-20T00:00:00+09:00",
       "media_type": "article",
-      "image_url": "",
+      "image_url": "https://www.designboom.com/twitterimages/dbsub/467043/2026-07-09/the-shop-vesnaflowers-4-6a4fef19eead8.jpg",
       "score": 83,
       "category": "spatial_furniture",
       "reasons": [
@@ -89,7 +101,13 @@
       "daily_page": "2026-07-22",
       "destination": "inbox",
       "discovery": false,
-      "images": []
+      "video_url": "",
+      "images": [
+        {
+          "url": "https://www.designboom.com/twitterimages/dbsub/467043/2026-07-09/the-shop-vesnaflowers-4-6a4fef19eead8.jpg",
+          "alt": "colorful furnishings and raw textures animate an open-plan flower shop"
+        }
+      ]
     },
     {
       "item_id": "raindrop_1797895927",
@@ -101,7 +119,7 @@
       "excerpt": "建設/プロジェクト管理領域のロゴアニメーション事例。幾何学的な構造、データドリブンな印象、短いブランドリビールとしての整理が見どころ。",
       "published_at": "2026-07-22T00:00:00+09:00",
       "media_type": "article",
-      "image_url": "",
+      "image_url": "https://static.wixstatic.com/media/33eb80_7dafb3c0c19c4513ab58cdcc0e531eac~mv2.png/v1/fill/w_1710,h_782,al_c/33eb80_7dafb3c0c19c4513ab58cdcc0e531eac~mv2.png",
       "score": 76,
       "category": "logo_motion",
       "reasons": [
@@ -115,7 +133,13 @@
       "daily_page": "2026-07-22",
       "destination": "inbox",
       "discovery": false,
-      "images": []
+      "video_url": "",
+      "images": [
+        {
+          "url": "https://static.wixstatic.com/media/33eb80_7dafb3c0c19c4513ab58cdcc0e531eac~mv2.png/v1/fill/w_1710,h_782,al_c/33eb80_7dafb3c0c19c4513ab58cdcc0e531eac~mv2.png",
+          "alt": "Promasch Logo Animation Case Study"
+        }
+      ]
     },
     {
       "item_id": "raindrop_1797895928",
@@ -127,7 +151,7 @@
       "excerpt": "ファッションブランド向けのCGIロゴアニメーション。暗い照明、質感、シネマティックなブランドリビールが中心で、logo_motionと映像表現の中間にある。",
       "published_at": "2026-07-07T00:00:00+09:00",
       "media_type": "video",
-      "image_url": "",
+      "image_url": "https://storage-01-mda.keyfram.es/p/21473/2585/9dd142d1bd97847c5549b01aa78cf9c2.jpeg",
       "score": 78,
       "category": "logo_motion",
       "reasons": [
@@ -141,7 +165,13 @@
       "daily_page": "2026-07-22",
       "destination": "inbox",
       "discovery": false,
-      "images": []
+      "video_url": "",
+      "images": [
+        {
+          "url": "https://storage-01-mda.keyfram.es/p/21473/2585/9dd142d1bd97847c5549b01aa78cf9c2.jpeg",
+          "alt": "GOAT THE LEGEND - Cinematic Logo Animation for Clothing Brand"
+        }
+      ]
     },
     {
       "item_id": "raindrop_1797895929",
@@ -153,7 +183,7 @@
       "excerpt": "プロッター、出版、ノイズ的な視覚表現が交差するグラフィックプロジェクト。紙媒体と手続き的な生成表現の中間として参照価値がある。",
       "published_at": "2026-07-06T00:00:00+09:00",
       "media_type": "article",
-      "image_url": "",
+      "image_url": "https://admin.itsnicethat.com/images/9GOSVysCoHKG6MYudMMhuz6qsZI=/279532/width-1440/stanley-plowman-pen-plotter-illustration-itsnicethat-13.jpeg",
       "score": 80,
       "category": "experimental_graphic",
       "reasons": [
@@ -167,7 +197,13 @@
       "daily_page": "2026-07-22",
       "destination": "inbox",
       "discovery": false,
-      "images": []
+      "video_url": "",
+      "images": [
+        {
+          "url": "https://admin.itsnicethat.com/images/9GOSVysCoHKG6MYudMMhuz6qsZI=/279532/width-1440/stanley-plowman-pen-plotter-illustration-itsnicethat-13.jpeg",
+          "alt": "Stanley Plowman: Garble"
+        }
+      ]
     },
     {
       "item_id": "raindrop_1797895930",
@@ -179,7 +215,7 @@
       "excerpt": "サーフボード製造で余った樹脂とファイバーを、家具、器、コースター、日用品へ変換するHall 5のプロジェクト。再生素材がテラゾー状の質感になる。",
       "published_at": "2026-07-14T00:00:00+09:00",
       "media_type": "article",
-      "image_url": "",
+      "image_url": "https://www.designboom.com/twitterimages/uploads/2026/07/surfboard-offcuts-furniture-objects-hall5-designboom-05-750x1000.jpg",
       "score": 81,
       "category": "product_furniture_material",
       "reasons": [
@@ -193,7 +229,13 @@
       "daily_page": "2026-07-22",
       "destination": "discovery",
       "discovery": true,
-      "images": []
+      "video_url": "",
+      "images": [
+        {
+          "url": "https://www.designboom.com/twitterimages/uploads/2026/07/surfboard-offcuts-furniture-objects-hall5-designboom-05-750x1000.jpg",
+          "alt": "can surfboard offcuts become furniture and everyday objects?"
+        }
+      ]
     },
     {
       "item_id": "raindrop_1797895931",
@@ -205,7 +247,7 @@
       "excerpt": "アムステルダムのFlevoparkに置かれた、風に反応する金属的なキネティックインスタレーション。環境応答で面がゆらぐ表現が、展示やVR空間演出にも転用しやすい。",
       "published_at": "2026-07-19T00:00:00+09:00",
       "media_type": "article",
-      "image_url": "",
+      "image_url": "https://www.designboom.com/twitterimages/uploads/2026/07/steel-grass-aerosculpture-synergy-art-festival-designboom-FB-1.jpg",
       "score": 79,
       "category": "spatial_kinetic_art",
       "reasons": [
@@ -219,7 +261,13 @@
       "daily_page": "2026-07-22",
       "destination": "discovery",
       "discovery": true,
-      "images": []
+      "video_url": "",
+      "images": [
+        {
+          "url": "https://www.designboom.com/twitterimages/uploads/2026/07/steel-grass-aerosculpture-synergy-art-festival-designboom-FB-1.jpg",
+          "alt": "aerosculpture's kinetic 'steel grass' turns the amsterdam breeze into a shifting metallic field"
+        }
+      ]
     }
   ]
 }

@@ -8,7 +8,7 @@
   "excerpt": "建設/プロジェクト管理領域のロゴアニメーション事例。幾何学的な構造、データドリブンな印象、短いブランドリビールとしての整理が見どころ。",
   "published_at": "2026-07-22T00:00:00+09:00",
   "media_type": "article",
-  "image_url": "",
+  "image_url": "https://static.wixstatic.com/media/33eb80_7dafb3c0c19c4513ab58cdcc0e531eac~mv2.png/v1/fill/w_1710,h_782,al_c/33eb80_7dafb3c0c19c4513ab58cdcc0e531eac~mv2.png",
   "score": 76,
   "category": "logo_motion",
   "reasons": [
@@ -22,5 +22,11 @@
   "daily_page": "2026-07-22",
   "destination": "inbox",
   "discovery": false,
-  "images": []
+  "video_url": "",
+  "images": [
+    {
+      "url": "https://static.wixstatic.com/media/33eb80_7dafb3c0c19c4513ab58cdcc0e531eac~mv2.png/v1/fill/w_1710,h_782,al_c/33eb80_7dafb3c0c19c4513ab58cdcc0e531eac~mv2.png",
+      "alt": "Promasch Logo Animation Case Study"
+    }
+  ]
 }

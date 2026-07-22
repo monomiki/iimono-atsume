@@ -8,7 +8,7 @@
   "excerpt": "モスクワの花屋インテリア。青いフォーム天井、再生プラスチック家具、ラフな既存壁の対比が強く、店舗動線を花束制作のパフォーマンスとして見せている。",
   "published_at": "2026-07-20T00:00:00+09:00",
   "media_type": "article",
-  "image_url": "",
+  "image_url": "https://www.designboom.com/twitterimages/dbsub/467043/2026-07-09/the-shop-vesnaflowers-4-6a4fef19eead8.jpg",
   "score": 83,
   "category": "spatial_furniture",
   "reasons": [
@@ -22,5 +22,11 @@
   "daily_page": "2026-07-22",
   "destination": "inbox",
   "discovery": false,
-  "images": []
+  "video_url": "",
+  "images": [
+    {
+      "url": "https://www.designboom.com/twitterimages/dbsub/467043/2026-07-09/the-shop-vesnaflowers-4-6a4fef19eead8.jpg",
+      "alt": "colorful furnishings and raw textures animate an open-plan flower shop"
+    }
+  ]
 }

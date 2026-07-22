@@ -8,7 +8,7 @@
   "excerpt": "アムステルダムのFlevoparkに置かれた、風に反応する金属的なキネティックインスタレーション。環境応答で面がゆらぐ表現が、展示やVR空間演出にも転用しやすい。",
   "published_at": "2026-07-19T00:00:00+09:00",
   "media_type": "article",
-  "image_url": "",
+  "image_url": "https://www.designboom.com/twitterimages/uploads/2026/07/steel-grass-aerosculpture-synergy-art-festival-designboom-FB-1.jpg",
   "score": 79,
   "category": "spatial_kinetic_art",
   "reasons": [
@@ -22,5 +22,11 @@
   "daily_page": "2026-07-22",
   "destination": "discovery",
   "discovery": true,
-  "images": []
+  "video_url": "",
+  "images": [
+    {
+      "url": "https://www.designboom.com/twitterimages/uploads/2026/07/steel-grass-aerosculpture-synergy-art-festival-designboom-FB-1.jpg",
+      "alt": "aerosculpture's kinetic 'steel grass' turns the amsterdam breeze into a shifting metallic field"
+    }
+  ]
 }

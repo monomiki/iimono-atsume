@@ -8,7 +8,7 @@
   "excerpt": "VRChatワールド向けのビームライト制御システム。2026年7月の大型更新でVRC Light Volumes対応、6灯/12灯構成、配置パターン追加、動画入力の自動検出などが入った実用アセット。",
   "published_at": "2026-07-19T00:00:00+09:00",
   "media_type": "article",
-  "image_url": "",
+  "image_url": "https://public-files.gumroad.com/640mgfng6jo89dgrsgl462q3h4k5",
   "score": 88,
   "category": "vrchat_gimmick",
   "reasons": [
@@ -22,5 +22,11 @@
   "daily_page": "2026-07-22",
   "destination": "high",
   "discovery": false,
-  "images": []
+  "video_url": "",
+  "images": [
+    {
+      "url": "https://public-files.gumroad.com/640mgfng6jo89dgrsgl462q3h4k5",
+      "alt": "BeamLight Control System(VRChat)"
+    }
+  ]
 }

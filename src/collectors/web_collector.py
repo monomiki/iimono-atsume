@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 import urllib.request
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
@@ -49,6 +50,7 @@ class WebCollector(Collector):
             title = item.findtext("title") or ""
             link = item.findtext("link") or feed_url
             description = item.findtext("description") or ""
+            image_url, video_url, media_type = self._item_media(item, description)
             candidates.append(
                 Candidate(
                     title=title,
@@ -56,8 +58,35 @@ class WebCollector(Collector):
                     source=self.source,
                     text=description,
                     published_at=datetime.now(timezone.utc),
+                    media_type=media_type,
+                    image_url=image_url,
+                    video_url=video_url,
                     domain=extract_domain(link),
                 )
             )
         return candidates
 
+    @staticmethod
+    def _item_media(item: ET.Element, description: str) -> tuple[str, str, str]:
+        image_url = ""
+        video_url = ""
+        media_type = "article"
+        for child in item:
+            tag = child.tag.lower()
+            url = child.attrib.get("url", "")
+            content_type = child.attrib.get("type", "")
+            if not url:
+                continue
+            if tag.endswith("thumbnail") or content_type.startswith("image/"):
+                image_url = image_url or url
+            elif tag.endswith("content") or tag.endswith("enclosure"):
+                if content_type.startswith("video/"):
+                    video_url = video_url or url
+                    media_type = "video"
+                elif content_type.startswith("image/"):
+                    image_url = image_url or url
+                    media_type = "image"
+        if not image_url:
+            match = re.search(r"<img\s+[^>]*src\s*=\s*(['\"])(.*?)\1", description, re.IGNORECASE | re.DOTALL)
+            image_url = match.group(2).strip() if match else ""
+        return image_url, video_url, media_type

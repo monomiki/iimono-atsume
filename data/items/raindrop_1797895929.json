@@ -8,7 +8,7 @@
   "excerpt": "プロッター、出版、ノイズ的な視覚表現が交差するグラフィックプロジェクト。紙媒体と手続き的な生成表現の中間として参照価値がある。",
   "published_at": "2026-07-06T00:00:00+09:00",
   "media_type": "article",
-  "image_url": "",
+  "image_url": "https://admin.itsnicethat.com/images/9GOSVysCoHKG6MYudMMhuz6qsZI=/279532/width-1440/stanley-plowman-pen-plotter-illustration-itsnicethat-13.jpeg",
   "score": 80,
   "category": "experimental_graphic",
   "reasons": [
@@ -22,5 +22,11 @@
   "daily_page": "2026-07-22",
   "destination": "inbox",
   "discovery": false,
-  "images": []
+  "video_url": "",
+  "images": [
+    {
+      "url": "https://admin.itsnicethat.com/images/9GOSVysCoHKG6MYudMMhuz6qsZI=/279532/width-1440/stanley-plowman-pen-plotter-illustration-itsnicethat-13.jpeg",
+      "alt": "Stanley Plowman: Garble"
+    }
+  ]
 }

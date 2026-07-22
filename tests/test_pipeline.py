@@ -21,6 +21,7 @@ from src.config import daily_page_url
 from src.favorites.client import FavoriteService
 from src.site.builder import StaticSiteBuilder
 from src.site.cards import render_link_card, site_item_from_recommendation
+from src.site.metadata import enrich_link_metadata
 
 
 def make_settings(tmp: str = "", **overrides):
@@ -226,6 +227,29 @@ class PipelineTests(unittest.TestCase):
             self.assertIn("post-card__author", card)
             self.assertIn("post-card__details", card)
 
+    def test_link_card_renders_thumbnail_video_and_source_accent_key(self):
+        item = site_item_from_recommendation(
+            RecommendationScorer().score(
+                Candidate(
+                    "Playable sample",
+                    "https://youtu.be/example",
+                    "youtube",
+                    text="motion identity",
+                    media_type="video",
+                    image_url="https://cdn.example/poster.jpg",
+                    video_url="https://cdn.example/video.mp4",
+                ),
+                "design_graphic",
+                {"categories": []},
+            ),
+            "2026-07-22",
+        )
+        card = render_link_card(item)
+        self.assertIn('data-source-key="youtube"', card)
+        self.assertIn("<video controls", card)
+        self.assertIn("poster=", card)
+        self.assertIn("https://cdn.example/video.mp4", card)
+
     def test_daily_page_url_uses_configured_domain(self):
         settings = make_settings(public_site_domain="イキモノ.コム", public_site_base_url="https://イキモノ.コム")
         self.assertEqual(daily_page_url(settings, "2026-07-22"), "https://イキモノ.コム/daily/2026-07-22/")
@@ -267,6 +291,9 @@ class PipelineTests(unittest.TestCase):
         self.assertIn("@media (min-width: 1180px)", css)
         self.assertIn("@media (min-width: 1540px)", css)
         self.assertNotIn("min-height: 100%", css)
+        self.assertIn('data-source-key="instagram"', css)
+        self.assertIn("post-card__thumb-placeholder", css)
+        self.assertIn(".post-card__media video", css)
 
     def test_masonry_js_reacts_to_layout_changing_events(self):
         js = Path("site/static/js/masonry.js").read_text(encoding="utf-8")
@@ -286,6 +313,30 @@ class PipelineTests(unittest.TestCase):
             html = (settings.public_dir / "ui-preview" / "index.html").read_text(encoding="utf-8")
             for label in ["長文カード", "横長画像", "縦長画像", "画像2枚", "動画", "한국어"]:
                 self.assertIn(label, html)
+            self.assertIn("<video controls", html)
+
+    def test_metadata_enrichment_reads_open_graph_media(self):
+        class FakeResponse:
+            def __enter__(self):
+                return self
+
+            def __exit__(self, exc_type, exc, tb):
+                return False
+
+            @property
+            def headers(self):
+                return {"content-type": "text/html; charset=utf-8"}
+
+            def read(self, size=-1):
+                return b'<meta property="og:image" content="/thumb.jpg"><meta property="og:video" content="https://cdn.example/movie.mp4">'
+
+            def geturl(self):
+                return "https://example.com/post"
+
+        with patch("urllib.request.urlopen", lambda request, timeout: FakeResponse()):
+            media = enrich_link_metadata("https://example.com/post")
+        self.assertEqual(media["image_url"], "https://example.com/thumb.jpg")
+        self.assertEqual(media["video_url"], "https://cdn.example/movie.mp4")
 
 
 if __name__ == "__main__":

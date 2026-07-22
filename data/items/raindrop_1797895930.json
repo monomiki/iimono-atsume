@@ -8,7 +8,7 @@
   "excerpt": "サーフボード製造で余った樹脂とファイバーを、家具、器、コースター、日用品へ変換するHall 5のプロジェクト。再生素材がテラゾー状の質感になる。",
   "published_at": "2026-07-14T00:00:00+09:00",
   "media_type": "article",
-  "image_url": "",
+  "image_url": "https://www.designboom.com/twitterimages/uploads/2026/07/surfboard-offcuts-furniture-objects-hall5-designboom-05-750x1000.jpg",
   "score": 81,
   "category": "product_furniture_material",
   "reasons": [
@@ -22,5 +22,11 @@
   "daily_page": "2026-07-22",
   "destination": "discovery",
   "discovery": true,
-  "images": []
+  "video_url": "",
+  "images": [
+    {
+      "url": "https://www.designboom.com/twitterimages/uploads/2026/07/surfboard-offcuts-furniture-objects-hall5-designboom-05-750x1000.jpg",
+      "alt": "can surfboard offcuts become furniture and everyday objects?"
+    }
+  ]
 }

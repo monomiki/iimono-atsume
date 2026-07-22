@@ -9,6 +9,7 @@ from urllib.parse import quote
 from src.config import Settings, daily_page_url
 from src.site.cards import item_to_dict, site_item_from_recommendation
 from src.site.feeds import write_feed, write_sitemap
+from src.site.metadata import enrich_link_metadata
 from src.site.pages import daily_body, index_body, render_page
 from src.types import Recommendation, SiteItem
 
@@ -26,7 +27,7 @@ class StaticSiteBuilder:
     def build_daily_from_data(self, run_date: str) -> Dict:
         payload_path = self.data_dir / "daily" / f"{run_date}.json"
         payload = json.loads(payload_path.read_text(encoding="utf-8"))
-        items = [SiteItem(**item) for item in payload.get("items", [])]
+        items = [self._enrich_item(SiteItem(**item)) for item in payload.get("items", [])]
         stats = payload.get("stats", {})
         return self.build_daily_from_items(run_date, items, stats)
 
@@ -106,6 +107,20 @@ class StaticSiteBuilder:
         return items
 
     @staticmethod
+    def _enrich_item(item: SiteItem) -> SiteItem:
+        if item.image_url or item.images:
+            return item
+        metadata = enrich_link_metadata(item.url)
+        image_url = metadata.get("image_url", "")
+        video_url = metadata.get("video_url", "")
+        if image_url:
+            item.image_url = image_url
+            item.images = [{"url": image_url, "alt": item.title}]
+        if video_url and not item.video_url:
+            item.video_url = video_url
+        return item
+
+    @staticmethod
     def _neighbors(dates: List[str], run_date: str) -> tuple[str, str]:
         if run_date not in dates:
             return "", ""
@@ -153,6 +168,7 @@ def preview_site_items() -> List[SiteItem]:
         "published_at": "2026-07-22T07:00:00+09:00",
         "media_type": "article",
         "image_url": "",
+        "video_url": "",
         "score": 84,
         "category": "design_graphic",
         "reasons": ["Discord Embed風カード確認", "メイソンリー再配置確認"],
@@ -179,7 +195,7 @@ def preview_site_items() -> List[SiteItem]:
         ("two", "画像2枚", "2枚の画像を横2列で表示します。", [image("two-a", 600, 700), image("two-b", 600, 500)], "duo"),
         ("three", "画像3枚", "大1枚と小2枚の配置です。", [image("three-a", 600, 850), image("three-b", 400, 400), image("three-c", 400, 520)], "triad"),
         ("four", "画像4枚", "2x2の複数画像カードです。", [image("four-a", 500, 500), image("four-b", 500, 640), image("four-c", 500, 420), image("four-d", 500, 500)], "gridder"),
-        ("video", "動画", "動画カードのプレースホルダーです。", [], "motion_id"),
+        ("video", "動画", "直接動画URLがある場合はカード内で再生できます。", [image("poster", 900, 506)], "motion_id"),
         ("noavatar", "Avatarなし", "作者名がない状態でも崩れません。", [], ""),
         ("fav", "Favorite済み", "Favorite済み表示を確認します。", [image("fav", 600, 500)], "fav_user"),
         ("open", "推薦情報を開いたカード", "detailsを開いて高さが変わるケースです。", [], "ai_detail"),
@@ -199,8 +215,9 @@ def preview_site_items() -> List[SiteItem]:
                 "author": author,
                 "media_type": "video" if key == "video" else "article",
                 "images": images,
+                "video_url": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" if key == "video" else "",
                 "score": max(52, 92 - idx * 2),
-                "source": "x" if idx % 3 == 0 else "instagram" if idx % 3 == 1 else "web",
+                "source": "youtube" if key == "video" else "x" if idx % 3 == 0 else "instagram" if idx % 3 == 1 else "web",
                 "category": "vr_3d_tech" if idx % 4 == 0 else "design_graphic",
                 "discovery": idx % 5 == 0,
                 "destination": "high" if idx < 4 else "inbox",

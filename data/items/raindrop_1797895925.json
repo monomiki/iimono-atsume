@@ -8,7 +8,7 @@
   "excerpt": "タイポグラフィを編集、出版、思想の文脈で扱う記事。反デザインやニュータイポグラフィの視点があり、単なるTipsではなく資料として読み返せる内容。",
   "published_at": "2026-07-15T00:00:00+09:00",
   "media_type": "article",
-  "image_url": "",
+  "image_url": "https://admin.itsnicethat.com/images/zKeVn3NVxn6vqV5tr8NBjbCMSx4=/279894/width-1440/matter-of-publication-itsnicethat-5.jpg",
   "score": 86,
   "category": "typography_graphic",
   "reasons": [
@@ -22,5 +22,11 @@
   "daily_page": "2026-07-22",
   "destination": "high",
   "discovery": false,
-  "images": []
+  "video_url": "",
+  "images": [
+    {
+      "url": "https://admin.itsnicethat.com/images/zKeVn3NVxn6vqV5tr8NBjbCMSx4=/279894/width-1440/matter-of-publication-itsnicethat-5.jpg",
+      "alt": "Matter of New: New Typography"
+    }
+  ]
 }

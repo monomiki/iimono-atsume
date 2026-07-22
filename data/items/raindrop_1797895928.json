@@ -8,7 +8,7 @@
   "excerpt": "ファッションブランド向けのCGIロゴアニメーション。暗い照明、質感、シネマティックなブランドリビールが中心で、logo_motionと映像表現の中間にある。",
   "published_at": "2026-07-07T00:00:00+09:00",
   "media_type": "video",
-  "image_url": "",
+  "image_url": "https://storage-01-mda.keyfram.es/p/21473/2585/9dd142d1bd97847c5549b01aa78cf9c2.jpeg",
   "score": 78,
   "category": "logo_motion",
   "reasons": [
@@ -22,5 +22,11 @@
   "daily_page": "2026-07-22",
   "destination": "inbox",
   "discovery": false,
-  "images": []
+  "video_url": "",
+  "images": [
+    {
+      "url": "https://storage-01-mda.keyfram.es/p/21473/2585/9dd142d1bd97847c5549b01aa78cf9c2.jpeg",
+      "alt": "GOAT THE LEGEND - Cinematic Logo Animation for Clothing Brand"
+    }
+  ]
 }

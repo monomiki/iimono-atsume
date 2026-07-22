@@ -28,6 +28,7 @@ def site_item_from_recommendation(rec: Recommendation, run_date: str) -> SiteIte
         published_at=candidate.published_at.isoformat() if candidate.published_at else "",
         media_type=candidate.media_type,
         image_url=candidate.image_url,
+        video_url=candidate.video_url,
         images=[],
         score=rec.score,
         category=rec.category,
@@ -64,8 +65,9 @@ def render_link_card(item: SiteItem) -> str:
     favorite_label = "★ Favorited" if is_preview_favorite else "☆ Favorite"
     favorite_state = "true" if is_preview_favorite else "false"
     favorite_icon, favorite_text = favorite_label[0], favorite_label[1:]
+    source_key = source_key_for(item)
     return f"""
-<article class="post-card link-card" data-item-id="{html.escape(item.item_id, quote=True)}" data-category="{category}" data-source="{source}" data-score="{item.score}" data-date="{html.escape(item.published_at or item.daily_page, quote=True)}" data-destination="{html.escape(item.destination, quote=True)}" data-discovery="{str(item.discovery).lower()}" data-favorite-state="{favorite_state}">
+<article class="post-card link-card" data-item-id="{html.escape(item.item_id, quote=True)}" data-category="{category}" data-source="{source}" data-source-key="{html.escape(source_key, quote=True)}" data-score="{item.score}" data-date="{html.escape(item.published_at or item.daily_page, quote=True)}" data-destination="{html.escape(item.destination, quote=True)}" data-discovery="{str(item.discovery).lower()}" data-favorite-state="{favorite_state}">
   <div class="post-card__content">
     <header class="post-card__author">
       <div class="post-card__avatar" aria-hidden="true">{avatar_seed}</div>
@@ -104,14 +106,37 @@ def render_link_card(item: SiteItem) -> str:
 def render_media(item: SiteItem) -> str:
     images = item.images or ([{"url": item.image_url, "alt": item.title}] if item.image_url else [])
     images = [image for image in images if image.get("url")]
-    if item.media_type == "video" and not images:
-        return """
+    if item.media_type == "video":
+        return render_video_media(item, images)
+    if not images:
+        return render_thumbnail_placeholder(item)
+    return render_image_grid(images)
+
+
+def render_video_media(item: SiteItem, images: List[Dict[str, str]]) -> str:
+    poster = html.escape((images[0].get("url") if images else item.image_url) or "", quote=True)
+    video_url = html.escape(item.video_url or "", quote=True)
+    if item.video_url and is_direct_video_url(item.video_url):
+        poster_attr = f' poster="{poster}"' if poster else ""
+        return f"""
 <div class="post-card__media post-card__media--video" aria-label="動画">
-  <div class="post-card__video-placeholder">VIDEO</div>
+  <video controls preload="metadata"{poster_attr}>
+    <source src="{video_url}">
+    <a href="{html.escape(item.url, quote=True)}" target="_blank" rel="noopener noreferrer">動画を開く</a>
+  </video>
 </div>
 """.strip()
-    if not images:
-        return ""
+    if images:
+        overlay = '<span class="post-card__play-badge" aria-hidden="true">PLAY</span>'
+        return render_image_grid(images[:1], extra_class="post-card__media--video-preview", overlay=overlay)
+    return f"""
+<div class="post-card__media post-card__media--video" aria-label="動画">
+  <a class="post-card__video-placeholder" href="{html.escape(item.url, quote=True)}" target="_blank" rel="noopener noreferrer">VIDEO</a>
+</div>
+""".strip()
+
+
+def render_image_grid(images: List[Dict[str, str]], extra_class: str = "", overlay: str = "") -> str:
     visible = images[:4]
     more = max(0, len(images) - len(visible))
     image_html: List[str] = []
@@ -122,6 +147,40 @@ def render_media(item: SiteItem) -> str:
         height = html.escape(str(image.get("height", "")), quote=True)
         attrs = f' width="{width}" height="{height}"' if width and height else ""
         loading = "eager" if index == 0 else "lazy"
-        overlay = f'<span class="post-card__more">+{more}</span>' if more and index == len(visible) - 1 else ""
-        image_html.append(f'<figure><img src="{src}" alt="{alt}"{attrs} loading="{loading}" decoding="async">{overlay}</figure>')
-    return f'<div class="post-card__media post-card__media--count-{len(images)}">{"".join(image_html)}</div>'
+        badge = overlay if index == 0 else ""
+        more_badge = f'<span class="post-card__more">+{more}</span>' if more and index == len(visible) - 1 else ""
+        image_html.append(f'<figure><img src="{src}" alt="{alt}"{attrs} loading="{loading}" decoding="async">{badge}{more_badge}</figure>')
+    classes = f'post-card__media post-card__media--count-{len(images)} {extra_class}'.strip()
+    return f'<div class="{classes}">{"".join(image_html)}</div>'
+
+
+def render_thumbnail_placeholder(item: SiteItem) -> str:
+    source = html.escape(source_key_for(item))
+    label = html.escape(item.source.upper() if item.source else "LINK")
+    return f"""
+<div class="post-card__thumb-placeholder" data-source-thumb="{source}" aria-hidden="true">
+  <span>{label}</span>
+</div>
+""".strip()
+
+
+def source_key_for(item: SiteItem) -> str:
+    source = (item.source or "").lower()
+    url = (item.url or "").lower()
+    if "instagram.com" in url:
+        return "instagram"
+    if "x.com" in url or "twitter.com" in url or source in {"x", "twitter"}:
+        return "x"
+    if "youtube.com" in url or "youtu.be" in url:
+        return "youtube"
+    if "vimeo.com" in url:
+        return "vimeo"
+    if source:
+        return source
+    return "web"
+
+
+def is_direct_video_url(url: str) -> bool:
+    from src.site.metadata import is_direct_video_url as check
+
+    return check(url)
