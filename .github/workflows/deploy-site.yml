@@ -2,10 +2,16 @@ name: Deploy Site
 
 on:
   workflow_dispatch:
+    inputs:
+      date:
+        description: Date to publish (YYYY-MM-DD)
+        required: false
+        default: ""
 
 permissions:
   pages: write
   id-token: write
+  contents: read
 
 jobs:
   deploy:
@@ -15,6 +21,26 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Build from stored daily data
+        run: |
+          if [ -z "${PUBLISH_DATE}" ]; then
+            PUBLISH_DATE="$(TZ=Asia/Tokyo date +%F)"
+          fi
+          python -m src.cli publish-data-site --date "${PUBLISH_DATE}"
+        env:
+          PUBLISH_DATE: ${{ inputs.date }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_ACTIONS: "true"
+          PUBLIC_SITE_BASE_URL: ${{ vars.PUBLIC_SITE_BASE_URL }}
+          PUBLIC_SITE_DOMAIN: ${{ vars.PUBLIC_SITE_DOMAIN }}
+          PUBLIC_SITE_PATH_PREFIX: /daily
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

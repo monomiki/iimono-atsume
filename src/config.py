@@ -109,6 +109,9 @@ def public_base_url(settings: Settings) -> str:
     domain = settings.public_site_domain.strip()
     if domain:
         return f"https://{domain}"
+    if settings.github_repository and "GITHUB_ACTIONS" in os.environ:
+        owner, repo = settings.github_repository.split("/", 1)
+        return f"https://{owner}.github.io/{repo}"
     return "http://localhost:8000"
 
 

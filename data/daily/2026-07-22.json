@@ -1,59 +1,225 @@
 {
   "date": "2026-07-22",
   "stats": {
-    "candidates": 2,
-    "duplicates": 0
+    "candidates": 18,
+    "duplicates": 0,
+    "evaluated": 12,
+    "saved": 8,
+    "raindrop_collections": {
+      "root": "🤖 AIデイリー収集",
+      "high": "⭐ 高精度",
+      "inbox": "📥 未確認",
+      "discovery": "🧭 新規発見"
+    }
   },
   "items": [
     {
-      "item_id": "x_78b2a5538975504d",
-      "title": "VRChat world lighting breakdown",
-      "url": "https://x.com/worldbuilder/status/2222222222",
-      "normalized_url": "https://x.com/worldbuilder/status/2222222222",
-      "source": "x",
-      "author": "worldbuilder",
-      "excerpt": "VRChat world virtual architecture spatial design lighting tips",
-      "published_at": "2026-07-21T21:16:39.895687+00:00",
+      "item_id": "raindrop_1797895924",
+      "title": "BeamLight Control System(VRChat)",
+      "url": "https://noriben3.gumroad.com/l/beamlightcontrolsystem",
+      "normalized_url": "https://noriben3.gumroad.com/l/beamlightcontrolsystem",
+      "source": "web",
+      "author": "noriben",
+      "excerpt": "VRChatワールド向けのビームライト制御システム。2026年7月の大型更新でVRC Light Volumes対応、6灯/12灯構成、配置パターン追加、動画入力の自動検出などが入った実用アセット。",
+      "published_at": "2026-07-19T00:00:00+09:00",
       "media_type": "article",
       "image_url": "",
-      "score": 61,
-      "category": "vr_3d_tech",
+      "score": 88,
+      "category": "vrchat_gimmick",
       "reasons": [
-        "vr_3d_techの保存語彙と近い",
-        "作者または発信元を抽出できる: worldbuilder",
-        "制作や生活への応用可能性が高い"
+        "既存のVRChat/ワールド/アイテム・ギミック系保存と強く一致",
+        "AudioLink、VRC Light Volumes、動画入力連携など制作に直接応用しやすい",
+        "2026-07-16の大型更新と2026-07-19のv6.1.0で鮮度が高い"
       ],
       "novelty": [
-        "直近保存傾向に近い候補"
+        "ライト演出とクラブ/イベント空間の制作に寄せた実用アセット"
       ],
       "daily_page": "2026-07-22",
-      "destination": "inbox",
-      "discovery": false
+      "destination": "high",
+      "discovery": false,
+      "images": []
     },
     {
-      "item_id": "x_6b156855b5c8cb82",
-      "title": "Motion typography identity for a music label",
-      "url": "https://x.com/studio_type/status/1234567890",
-      "normalized_url": "https://x.com/studio_type/status/1234567890",
-      "source": "x",
-      "author": "studio_type",
-      "excerpt": "experimental typography logo animation motion identity",
-      "published_at": "2026-07-22T01:16:39.895687+00:00",
-      "media_type": "video",
+      "item_id": "raindrop_1797895925",
+      "title": "Matter of New: New Typography",
+      "url": "https://www.itsnicethat.com/articles/matter-of-new-new-typography-graphic-design-publication-project-150726",
+      "normalized_url": "https://www.itsnicethat.com/articles/matter-of-new-new-typography-graphic-design-publication-project-150726",
+      "source": "web",
+      "author": "It's Nice That",
+      "excerpt": "タイポグラフィを編集、出版、思想の文脈で扱う記事。反デザインやニュータイポグラフィの視点があり、単なるTipsではなく資料として読み返せる内容。",
+      "published_at": "2026-07-15T00:00:00+09:00",
+      "media_type": "article",
       "image_url": "",
-      "score": 58,
-      "category": "design_graphic",
+      "score": 86,
+      "category": "typography_graphic",
       "reasons": [
-        "design_graphicの保存語彙と近い",
-        "作者または発信元を抽出できる: studio_type",
-        "視覚・映像表現の評価対象として扱える"
+        "typo、font、gra_main系に近い実験的な文字組みと紙面性がある",
+        "出版プロジェクトとして後から参照しやすい",
+        "デザイン思想と編集表現が結びついている"
       ],
       "novelty": [
-        "直近保存傾向に近い候補"
+        "タイポグラフィを思想・編集・出版プロジェクトとして扱う点が広がりになる"
+      ],
+      "daily_page": "2026-07-22",
+      "destination": "high",
+      "discovery": false,
+      "images": []
+    },
+    {
+      "item_id": "raindrop_1797895926",
+      "title": "colorful furnishings and raw textures animate an open-plan flower shop",
+      "url": "https://www.designboom.com/readers/colorful-furnishings-raw-textures-flower-shop-moscow/",
+      "normalized_url": "https://www.designboom.com/readers/colorful-furnishings-raw-textures-flower-shop-moscow/",
+      "source": "web",
+      "author": "designboom",
+      "excerpt": "モスクワの花屋インテリア。青いフォーム天井、再生プラスチック家具、ラフな既存壁の対比が強く、店舗動線を花束制作のパフォーマンスとして見せている。",
+      "published_at": "2026-07-20T00:00:00+09:00",
+      "media_type": "article",
+      "image_url": "",
+      "score": 83,
+      "category": "spatial_furniture",
+      "reasons": [
+        "家具、よい部屋、空間、プロダクトの複数カテゴリに接続する",
+        "青いフォーム天井と再生プラスチック家具の素材対比が視覚参考になる",
+        "2026-07-20公開で鮮度が高い"
+      ],
+      "novelty": [
+        "花屋の実用動線をパフォーマンスとして見せる店舗設計"
       ],
       "daily_page": "2026-07-22",
       "destination": "inbox",
-      "discovery": false
+      "discovery": false,
+      "images": []
+    },
+    {
+      "item_id": "raindrop_1797895927",
+      "title": "Promasch Logo Animation Case Study",
+      "url": "https://www.identicube.in/projects/promasch-logo-animation",
+      "normalized_url": "https://www.identicube.in/projects/promasch-logo-animation",
+      "source": "web",
+      "author": "Identicube",
+      "excerpt": "建設/プロジェクト管理領域のロゴアニメーション事例。幾何学的な構造、データドリブンな印象、短いブランドリビールとしての整理が見どころ。",
+      "published_at": "2026-07-22T00:00:00+09:00",
+      "media_type": "article",
+      "image_url": "",
+      "score": 76,
+      "category": "logo_motion",
+      "reasons": [
+        "logo_motion、logo_main系の保存傾向に合う幾何学的なロゴアニメーション事例",
+        "硬い領域を抽象的な動きで見せるケーススタディ",
+        "クロールが2026-07-22で新規候補として確認できる"
+      ],
+      "novelty": [
+        "建築/施工系とロゴモーションの接点として既存カテゴリを横断する"
+      ],
+      "daily_page": "2026-07-22",
+      "destination": "inbox",
+      "discovery": false,
+      "images": []
+    },
+    {
+      "item_id": "raindrop_1797895928",
+      "title": "GOAT THE LEGEND - Cinematic Logo Animation for Clothing Brand",
+      "url": "https://www.motiondesignawards.com/project/2585/goat-the-legend-cinematic-logo-animation-for-clothing-brand",
+      "normalized_url": "https://www.motiondesignawards.com/project/2585/goat-the-legend-cinematic-logo-animation-for-clothing-brand",
+      "source": "web",
+      "author": "Motion Design Awards",
+      "excerpt": "ファッションブランド向けのCGIロゴアニメーション。暗い照明、質感、シネマティックなブランドリビールが中心で、logo_motionと映像表現の中間にある。",
+      "published_at": "2026-07-07T00:00:00+09:00",
+      "media_type": "video",
+      "image_url": "",
+      "score": 78,
+      "category": "logo_motion",
+      "reasons": [
+        "logo_motionとファッション/映像表現の交差が既存嗜好に合う",
+        "Motion Design Awards掲載で評価軸があり作品情報を確認しやすい",
+        "シネマティックな照明、質感、ブランドリビールの参考になる"
+      ],
+      "novelty": [
+        "ファッションブランド文脈のCGIロゴ演出"
+      ],
+      "daily_page": "2026-07-22",
+      "destination": "inbox",
+      "discovery": false,
+      "images": []
+    },
+    {
+      "item_id": "raindrop_1797895929",
+      "title": "Stanley Plowman: Garble",
+      "url": "https://www.itsnicethat.com/articles/stanley-plowman-garble-graphic-design-publication-project-060726",
+      "normalized_url": "https://www.itsnicethat.com/articles/stanley-plowman-garble-graphic-design-publication-project-060726",
+      "source": "web",
+      "author": "It's Nice That",
+      "excerpt": "プロッター、出版、ノイズ的な視覚表現が交差するグラフィックプロジェクト。紙媒体と手続き的な生成表現の中間として参照価値がある。",
+      "published_at": "2026-07-06T00:00:00+09:00",
+      "media_type": "article",
+      "image_url": "",
+      "score": 80,
+      "category": "experimental_graphic",
+      "reasons": [
+        "gra_paper、typo、font系と相性のよいプロッター/出版/ノイズ的な視覚表現",
+        "作品紹介として情報量があり制作プロセスの参考にできる",
+        "既存のポスター的/実験的なグラフィック保存傾向に近い"
+      ],
+      "novelty": [
+        "手続き的な生成表現と紙媒体の中間"
+      ],
+      "daily_page": "2026-07-22",
+      "destination": "inbox",
+      "discovery": false,
+      "images": []
+    },
+    {
+      "item_id": "raindrop_1797895930",
+      "title": "can surfboard offcuts become furniture and everyday objects?",
+      "url": "https://www.designboom.com/design/surfboard-offcuts-furniture-objects-hall5/",
+      "normalized_url": "https://www.designboom.com/design/surfboard-offcuts-furniture-objects-hall5/",
+      "source": "web",
+      "author": "designboom",
+      "excerpt": "サーフボード製造で余った樹脂とファイバーを、家具、器、コースター、日用品へ変換するHall 5のプロジェクト。再生素材がテラゾー状の質感になる。",
+      "published_at": "2026-07-14T00:00:00+09:00",
+      "media_type": "article",
+      "image_url": "",
+      "score": 81,
+      "category": "product_furniture_material",
+      "reasons": [
+        "pd-商品、家具、良い物体、3D/素材系の関心を横断する",
+        "廃材の樹脂とファイバーを家具や日用品へ変換する質感の強いプロダクト事例",
+        "再生素材がテラゾー状の視覚特徴になっている"
+      ],
+      "novelty": [
+        "スポーツ製造廃材から日用品へ転換する素材ストーリー"
+      ],
+      "daily_page": "2026-07-22",
+      "destination": "discovery",
+      "discovery": true,
+      "images": []
+    },
+    {
+      "item_id": "raindrop_1797895931",
+      "title": "aerosculpture's kinetic 'steel grass' turns the amsterdam breeze into a shifting metallic field",
+      "url": "https://www.designboom.com/art/aerosculptures-kinetic-steel-grass-turns-the-amsterdam-breeze-into-a-shifting-metallic-field/",
+      "normalized_url": "https://www.designboom.com/art/aerosculptures-kinetic-steel-grass-turns-the-amsterdam-breeze-into-a-shifting-metallic-field/",
+      "source": "web",
+      "author": "designboom",
+      "excerpt": "アムステルダムのFlevoparkに置かれた、風に反応する金属的なキネティックインスタレーション。環境応答で面がゆらぐ表現が、展示やVR空間演出にも転用しやすい。",
+      "published_at": "2026-07-19T00:00:00+09:00",
+      "media_type": "article",
+      "image_url": "",
+      "score": 79,
+      "category": "spatial_kinetic_art",
+      "reasons": [
+        "art、空間、映像的モーション表現のあいだにある候補",
+        "風や人の動きで変化する金属的な面が展示/インスタレーション参考として強い",
+        "2026-07-19公開で比較的新しい"
+      ],
+      "novelty": [
+        "プログラムではなく環境応答で動く空間演出"
+      ],
+      "daily_page": "2026-07-22",
+      "destination": "discovery",
+      "discovery": true,
+      "images": []
     }
   ]
 }

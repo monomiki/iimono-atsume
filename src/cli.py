@@ -23,6 +23,8 @@ def main(argv=None) -> int:
     daily.add_argument("--skip-deploy", action="store_true")
     build_site = sub.add_parser("build-site")
     build_site.add_argument("--date", default="")
+    publish_data_site = sub.add_parser("publish-data-site")
+    publish_data_site.add_argument("--date", required=True)
     deploy_site = sub.add_parser("deploy-site")
     deploy_site.add_argument("--dry-run", action="store_true")
     notify = sub.add_parser("notify-discord")
@@ -48,6 +50,10 @@ def main(argv=None) -> int:
         print(json.dumps(job.run(dry_run=args.dry_run, run_date=args.date, skip_deploy=args.skip_deploy), ensure_ascii=False, indent=2))
     elif args.command == "build-site":
         print(json.dumps(job.build_site(args.date), ensure_ascii=False, indent=2))
+    elif args.command == "publish-data-site":
+        from src.site.builder import StaticSiteBuilder
+
+        print(json.dumps(StaticSiteBuilder(job.settings).build_daily_from_data(args.date), ensure_ascii=False, indent=2))
     elif args.command == "deploy-site":
         print(json.dumps(job.deploy_site(dry_run=args.dry_run), ensure_ascii=False, indent=2))
     elif args.command == "notify-discord":

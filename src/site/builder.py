@@ -21,6 +21,16 @@ class StaticSiteBuilder:
 
     def build_daily(self, run_date: str, recommendations: List[Recommendation], stats: Dict) -> Dict:
         items = [site_item_from_recommendation(rec, run_date) for rec in recommendations]
+        return self.build_daily_from_items(run_date, items, stats)
+
+    def build_daily_from_data(self, run_date: str) -> Dict:
+        payload_path = self.data_dir / "daily" / f"{run_date}.json"
+        payload = json.loads(payload_path.read_text(encoding="utf-8"))
+        items = [SiteItem(**item) for item in payload.get("items", [])]
+        stats = payload.get("stats", {})
+        return self.build_daily_from_items(run_date, items, stats)
+
+    def build_daily_from_items(self, run_date: str, items: List[SiteItem], stats: Dict) -> Dict:
         self._prepare()
         self._write_static_assets()
         self._write_data(run_date, items, stats)
@@ -89,9 +99,10 @@ class StaticSiteBuilder:
 
     def _load_all_items(self) -> List[SiteItem]:
         items: List[SiteItem] = []
-        for path in sorted((self.data_dir / "items").glob("*.json")):
+        for path in sorted((self.data_dir / "daily").glob("*.json")):
             data = json.loads(path.read_text(encoding="utf-8"))
-            items.append(SiteItem(**data))
+            for item in data.get("items", []):
+                items.append(SiteItem(**item))
         return items
 
     @staticmethod
