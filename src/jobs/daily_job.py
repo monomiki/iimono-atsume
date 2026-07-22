@@ -119,7 +119,7 @@ class DailyJob:
                 synced += 1
         return {"synced": synced, "dry_run": False}
 
-    def run(self, dry_run: bool = False, run_date: str = "") -> Dict:
+    def run(self, dry_run: bool = False, run_date: str = "", skip_deploy: bool = False) -> Dict:
         profile = self.build_profile()
         recommendations, duplicates, candidates_count = self.recommend()
         effective_dry_run = dry_run or self.settings.dry_run
@@ -128,7 +128,7 @@ class DailyJob:
         report_path = MarkdownReporter(self.settings.reports_dir).write(run_date, candidates_count, duplicates, recommendations, saved)
         stats = {"candidates": candidates_count, "duplicates": len(duplicates), "evaluated": len(recommendations), "saved": len(saved)}
         site_result = StaticSiteBuilder(self.settings).build_daily(run_date, saved, stats)
-        deploy_result = SiteDeployer(self.settings).deploy(effective_dry_run)
+        deploy_result = {"status": "skipped", "reason": "skip_deploy"} if skip_deploy else SiteDeployer(self.settings).deploy(effective_dry_run)
         notify_result = {"status": "skipped", "reason": "dry_run_or_deploy_not_confirmed"}
         if not effective_dry_run and deploy_result.get("status") == "deployed":
             verify = SiteDeployer.verify(site_result["url"])

@@ -20,6 +20,7 @@ def main(argv=None) -> int:
     daily = sub.add_parser("daily-run")
     daily.add_argument("--dry-run", action="store_true")
     daily.add_argument("--date", default="")
+    daily.add_argument("--skip-deploy", action="store_true")
     build_site = sub.add_parser("build-site")
     build_site.add_argument("--date", default="")
     deploy_site = sub.add_parser("deploy-site")
@@ -44,7 +45,7 @@ def main(argv=None) -> int:
         recommendations, duplicates, candidates_count = job.recommend()
         print(json.dumps({"candidates": candidates_count, "duplicates": len(duplicates), "recommendations": [r.__dict__ for r in recommendations]}, ensure_ascii=False, default=str, indent=2))
     elif args.command == "daily-run":
-        print(json.dumps(job.run(dry_run=args.dry_run, run_date=args.date), ensure_ascii=False, indent=2))
+        print(json.dumps(job.run(dry_run=args.dry_run, run_date=args.date, skip_deploy=args.skip_deploy), ensure_ascii=False, indent=2))
     elif args.command == "build-site":
         print(json.dumps(job.build_site(args.date), ensure_ascii=False, indent=2))
     elif args.command == "deploy-site":
