@@ -1,0 +1,4 @@
+# Optional public RSS feeds. Empty tokens/API permissions do not stop the system.
+rss_feeds:
+  # - https://example.com/feed.xml
+

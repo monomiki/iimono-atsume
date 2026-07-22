@@ -1,0 +1,109 @@
+{
+  "date": "2026-07-21",
+  "stats": {
+    "candidates": 9,
+    "duplicates": 3,
+    "evaluated": 6,
+    "saved": 4
+  },
+  "items": [
+    {
+      "item_id": "x_78b2a5538975504d",
+      "title": "VRChat world lighting breakdown",
+      "url": "https://x.com/worldbuilder/status/2222222222",
+      "normalized_url": "https://x.com/worldbuilder/status/2222222222",
+      "source": "x",
+      "author": "worldbuilder",
+      "excerpt": "VRChat world virtual architecture spatial design lighting tips",
+      "published_at": "2026-07-21T20:50:59.561916+00:00",
+      "media_type": "article",
+      "image_url": "",
+      "score": 61,
+      "category": "vr_3d_tech",
+      "reasons": [
+        "vr_3d_techの保存語彙と近い",
+        "作者または発信元を抽出できる: worldbuilder",
+        "制作や生活への応用可能性が高い"
+      ],
+      "novelty": [
+        "直近保存傾向に近い候補"
+      ],
+      "daily_page": "2026-07-21",
+      "destination": "inbox",
+      "discovery": false
+    },
+    {
+      "item_id": "x_6b156855b5c8cb82",
+      "title": "Motion typography identity for a music label",
+      "url": "https://x.com/studio_type/status/1234567890",
+      "normalized_url": "https://x.com/studio_type/status/1234567890",
+      "source": "x",
+      "author": "studio_type",
+      "excerpt": "experimental typography logo animation motion identity",
+      "published_at": "2026-07-22T00:50:59.561916+00:00",
+      "media_type": "video",
+      "image_url": "",
+      "score": 58,
+      "category": "design_graphic",
+      "reasons": [
+        "design_graphicの保存語彙と近い",
+        "作者または発信元を抽出できる: studio_type",
+        "視覚・映像表現の評価対象として扱える"
+      ],
+      "novelty": [
+        "直近保存傾向に近い候補"
+      ],
+      "daily_page": "2026-07-21",
+      "destination": "inbox",
+      "discovery": false
+    },
+    {
+      "item_id": "x_4fcff65e48f56d45",
+      "title": "3D printed hinge for modular shelf furniture",
+      "url": "https://maker.example/blog/modular-shelf-hinge",
+      "normalized_url": "https://maker.example/blog/modular-shelf-hinge",
+      "source": "x",
+      "author": "maker-lab",
+      "excerpt": "functional 3d print compact furniture shelf gadget useful item",
+      "published_at": "2026-07-21T12:50:59.561916+00:00",
+      "media_type": "article",
+      "image_url": "",
+      "score": 55,
+      "category": "vr_3d_tech",
+      "reasons": [
+        "vr_3d_techの保存語彙と近い",
+        "作者または発信元を抽出できる: maker-lab"
+      ],
+      "novelty": [
+        "既存カテゴリを横断する候補"
+      ],
+      "daily_page": "2026-07-21",
+      "destination": "discovery",
+      "discovery": true
+    },
+    {
+      "item_id": "instagram_2143fda3b2df2c92",
+      "title": "3D printed hinge for modular shelf furniture",
+      "url": "https://www.instagram.com/p/ABC123",
+      "normalized_url": "https://www.instagram.com/p/ABC123",
+      "source": "instagram",
+      "author": "spatial_objects",
+      "excerpt": "functional 3d print compact furniture shelf gadget useful item",
+      "published_at": "2026-07-21T12:50:59.562015+00:00",
+      "media_type": "article",
+      "image_url": "",
+      "score": 55,
+      "category": "vr_3d_tech",
+      "reasons": [
+        "vr_3d_techの保存語彙と近い",
+        "作者または発信元を抽出できる: spatial_objects"
+      ],
+      "novelty": [
+        "既存カテゴリを横断する候補"
+      ],
+      "daily_page": "2026-07-21",
+      "destination": "discovery",
+      "discovery": true
+    }
+  ]
+}

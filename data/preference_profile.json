@@ -1,0 +1,147 @@
+{
+  "version": 1,
+  "categories": [
+    {
+      "category": "culture_places",
+      "normalized_interest": 0.447,
+      "positive_features": [
+        "exhibition",
+        "guide",
+        "art",
+        "spatial",
+        "small",
+        "event",
+        "installation",
+        "tokyo"
+      ],
+      "negative_features": [
+        "広告目的だけの投稿",
+        "内容の薄いまとめ投稿",
+        "根拠のないTips",
+        "一般的すぎるテンプレート"
+      ],
+      "preferred_accounts": [],
+      "preferred_domains": [
+        "culture.example"
+      ],
+      "media_types": {
+        "article": 1
+      },
+      "sample_bookmark_ids": [
+        5
+      ]
+    },
+    {
+      "category": "design_graphic",
+      "normalized_interest": 0.632,
+      "positive_features": [
+        "typography",
+        "poster",
+        "layout",
+        "typo",
+        "archive",
+        "experimental",
+        "study",
+        "identity",
+        "logo",
+        "motion",
+        "animated",
+        "case"
+      ],
+      "negative_features": [
+        "広告目的だけの投稿",
+        "内容の薄いまとめ投稿",
+        "根拠のないTips",
+        "一般的すぎるテンプレート"
+      ],
+      "preferred_accounts": [],
+      "preferred_domains": [
+        "example.com",
+        "studio.example"
+      ],
+      "media_types": {
+        "image": 1,
+        "video": 1
+      },
+      "sample_bookmark_ids": [
+        1,
+        4
+      ]
+    },
+    {
+      "category": "vr_3d_tech",
+      "normalized_interest": 0.632,
+      "positive_features": [
+        "spatial",
+        "lighting",
+        "world",
+        "design",
+        "soft",
+        "with",
+        "vrchat",
+        "virtual",
+        "architecture",
+        "desk",
+        "gadget",
+        "furniture",
+        "utility",
+        "printing",
+        "printed"
+      ],
+      "negative_features": [
+        "広告目的だけの投稿",
+        "内容の薄いまとめ投稿",
+        "根拠のないTips",
+        "一般的すぎるテンプレート"
+      ],
+      "preferred_accounts": [],
+      "preferred_domains": [
+        "example.org",
+        "maker.example"
+      ],
+      "media_types": {
+        "article": 2
+      },
+      "sample_bookmark_ids": [
+        2,
+        3
+      ]
+    }
+  ],
+  "search_terms": [
+    "3D printing",
+    "Blender tips",
+    "Japanese exhibition",
+    "VRChat gimmick",
+    "VRChat world",
+    "archive",
+    "art",
+    "art exhibition Tokyo",
+    "character goods design",
+    "compact gadget",
+    "design",
+    "editorial design",
+    "exhibition",
+    "experimental typography",
+    "functional print",
+    "graphic design",
+    "guide",
+    "layout",
+    "lighting",
+    "logo animation",
+    "motion identity",
+    "packaging design",
+    "poster",
+    "poster design",
+    "product design",
+    "small",
+    "soft",
+    "spatial",
+    "spatial design",
+    "typo",
+    "typography",
+    "unusual furniture",
+    "virtual architecture",
+    "world"
+  ]
+}

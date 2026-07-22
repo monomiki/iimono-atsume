@@ -1,0 +1,24 @@
+{
+  "item_id": "x_4fcff65e48f56d45",
+  "title": "3D printed hinge for modular shelf furniture",
+  "url": "https://maker.example/blog/modular-shelf-hinge",
+  "normalized_url": "https://maker.example/blog/modular-shelf-hinge",
+  "source": "x",
+  "author": "maker-lab",
+  "excerpt": "functional 3d print compact furniture shelf gadget useful item",
+  "published_at": "2026-07-21T13:16:39.858961+00:00",
+  "media_type": "article",
+  "image_url": "",
+  "score": 55,
+  "category": "vr_3d_tech",
+  "reasons": [
+    "vr_3d_techの保存語彙と近い",
+    "作者または発信元を抽出できる: maker-lab"
+  ],
+  "novelty": [
+    "既存カテゴリを横断する候補"
+  ],
+  "daily_page": "2026-07-22",
+  "destination": "discovery",
+  "discovery": true
+}

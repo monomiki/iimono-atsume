@@ -1,0 +1,12 @@
+name = "ai-daily-favorites"
+main = "src/index.ts"
+compatibility_date = "2026-07-22"
+
+kv_namespaces = [
+  { binding = "FAVORITES", id = "replace-with-kv-namespace-id" }
+]
+
+[vars]
+PUBLIC_DATA_BASE_URL = "https://example.com"
+FAVORITE_ALLOWED_ORIGIN = "https://example.com"
+

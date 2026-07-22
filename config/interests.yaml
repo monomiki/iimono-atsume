@@ -1,0 +1,10 @@
+# Interest category names are resolved dynamically from Raindrop collection titles.
+# This file is intentionally editable; src/config.py contains the initial seed list.
+exclude:
+  - Trash
+  - アーカイブ
+  - moderator-only
+  - 保留
+  - 📎クリップボード
+  - デフォ
+
