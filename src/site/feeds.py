@@ -5,7 +5,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Iterable
 
-from src.config import Settings, daily_page_url, public_base_url
+from src.config import Settings, daily_page_url, public_base_url, site_path
 
 
 def write_feed(public_dir: Path, settings: Settings, dates: Iterable[str]) -> None:
@@ -39,5 +39,4 @@ def write_sitemap(public_dir: Path, settings: Settings, dates: Iterable[str]) ->
     urls.extend(daily_page_url(settings, date) for date in sorted(set(dates)))
     body = "\n".join(f"  <url><loc>{html.escape(url)}</loc></url>" for url in urls)
     (public_dir / "sitemap.xml").write_text(f'<?xml version="1.0" encoding="utf-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{body}\n</urlset>\n', encoding="utf-8")
-    (public_dir / "robots.txt").write_text("User-agent: *\nAllow: /\nSitemap: /sitemap.xml\n", encoding="utf-8")
-
+    (public_dir / "robots.txt").write_text(f"User-agent: *\nAllow: {site_path(settings, '/')}\nSitemap: {site_path(settings, '/sitemap.xml')}\n", encoding="utf-8")

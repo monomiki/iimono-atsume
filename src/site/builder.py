@@ -45,7 +45,7 @@ class StaticSiteBuilder:
         )
         (daily_dir / "index.html").write_text(daily_html, encoding="utf-8")
         (self.public_dir / "daily").mkdir(parents=True, exist_ok=True)
-        (self.public_dir / "daily" / "index.html").write_text(render_page("Daily", index_body(dates, items, items), self.settings), encoding="utf-8")
+        (self.public_dir / "daily" / "index.html").write_text(render_page("Daily", index_body(dates, items, items, self.settings), self.settings), encoding="utf-8")
         self.build_index()
         return {"daily_path": str(daily_dir / "index.html"), "url": daily_page_url(self.settings, run_date), "items": len(items)}
 
@@ -55,7 +55,7 @@ class StaticSiteBuilder:
         dates = self._known_dates()
         all_items = self._load_all_items()
         latest_items = [item for item in all_items if item.daily_page == (dates[-1] if dates else "")]
-        (self.public_dir / "index.html").write_text(render_page("AIデイリー収集", index_body(dates, latest_items, all_items), self.settings), encoding="utf-8")
+        (self.public_dir / "index.html").write_text(render_page("AIデイリー収集", index_body(dates, latest_items, all_items, self.settings), self.settings), encoding="utf-8")
         fav_dir = self.public_dir / "favorites"
         fav_dir.mkdir(parents=True, exist_ok=True)
         (fav_dir / "index.html").write_text(render_page("Favorites", self._favorites_body(all_items), self.settings), encoding="utf-8")

@@ -122,6 +122,12 @@ def daily_page_url(settings: Settings, run_date: str) -> str:
     return f"{public_base_url(settings)}{prefix}/{run_date}/"
 
 
+def site_path(settings: Settings, path: str) -> str:
+    base_path = urlparse(public_base_url(settings)).path.rstrip("/")
+    suffix = "/" + path.lstrip("/")
+    return f"{base_path}{suffix}" if base_path else suffix
+
+
 def site_origin(settings: Settings) -> Optional[str]:
     parsed = urlparse(public_base_url(settings))
     if parsed.scheme and parsed.netloc:

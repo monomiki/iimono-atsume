@@ -6,7 +6,7 @@ from collections import Counter
 from pathlib import Path
 from typing import Dict, Iterable, List
 
-from src.config import Settings, daily_page_url
+from src.config import Settings, site_path
 from src.site.cards import render_link_card
 from src.types import SiteItem
 
@@ -22,17 +22,17 @@ def render_page(title: str, body: str, settings: Settings) -> str:
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{html.escape(title)}</title>
-  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="{site_path(settings, "/assets/css/main.css")}">
   <script type="application/json" id="site-config">{html.escape(json.dumps(config), quote=False)}</script>
 </head>
 <body>
   <header class="site-header">
-    <a class="brand" href="/">AIデイリー収集</a>
-    <nav><a href="/daily/">Daily</a><a href="/favorites/">Favorites</a><a href="/feed.xml">RSS</a></nav>
+    <a class="brand" href="{site_path(settings, "/")}">AIデイリー収集</a>
+    <nav><a href="{site_path(settings, "/daily/")}">Daily</a><a href="{site_path(settings, "/favorites/")}">Favorites</a><a href="{site_path(settings, "/feed.xml")}">RSS</a></nav>
   </header>
   <main>{body}</main>
-  <script src="/assets/js/favorites.js" defer></script>
-  <script src="/assets/js/masonry.js" defer></script>
+  <script src="{site_path(settings, "/assets/js/favorites.js")}" defer></script>
+  <script src="{site_path(settings, "/assets/js/masonry.js")}" defer></script>
 </body>
 </html>
 """
@@ -41,8 +41,8 @@ def render_page(title: str, body: str, settings: Settings) -> str:
 def daily_body(run_date: str, items: List[SiteItem], stats: Dict, settings: Settings, prev_date: str = "", next_date: str = "") -> str:
     category_counts = Counter(item.category for item in items)
     source_counts = Counter(item.source for item in items)
-    prev_link = f'<a href="/daily/{prev_date}/">前日</a>' if prev_date else '<span>前日</span>'
-    next_link = f'<a href="/daily/{next_date}/">翌日</a>' if next_date else '<span>翌日</span>'
+    prev_link = f'<a href="{site_path(settings, f"/daily/{prev_date}/")}">前日</a>' if prev_date else '<span>前日</span>'
+    next_link = f'<a href="{site_path(settings, f"/daily/{next_date}/")}">翌日</a>' if next_date else '<span>翌日</span>'
     sorted_items = sorted(items, key=lambda item: (item.destination != "high" and item.score < 60, -item.score, not item.discovery, item.published_at), reverse=False)
     sections = [
         f"""
@@ -56,7 +56,7 @@ def daily_body(run_date: str, items: List[SiteItem], stats: Dict, settings: Sett
     <span>収集 {stats.get('candidates', len(items))}</span>
     <span>重複除外 {stats.get('duplicates', 0)}</span>
   </div>
-  <div class="pager">{prev_link}<a href="/">トップ</a>{next_link}</div>
+  <div class="pager">{prev_link}<a href="{site_path(settings, "/")}">トップ</a>{next_link}</div>
   {filter_bar(category_counts, source_counts, show_date=False)}
 </section>
 """,
@@ -82,11 +82,11 @@ def render_count_section(title: str, counts: Counter) -> str:
     return f"<section><h2>{html.escape(title)}</h2><ul class=\"count-list\">{rows}</ul></section>"
 
 
-def index_body(dates: List[str], latest_items: List[SiteItem], all_items: List[SiteItem]) -> str:
+def index_body(dates: List[str], latest_items: List[SiteItem], all_items: List[SiteItem], settings: Settings) -> str:
     category_counts = Counter(item.category for item in all_items)
     source_counts = Counter(item.source for item in all_items)
     latest_date = dates[-1] if dates else ""
-    daily_links = "".join(f'<li><a href="/daily/{date}/">{date}</a></li>' for date in reversed(dates[-30:]))
+    daily_links = "".join(f'<li><a href="{site_path(settings, f"/daily/{date}/")}">{date}</a></li>' for date in reversed(dates[-30:]))
     latest = render_masonry(latest_items[:12])
     return f"""
 <section class="hero compact-hero">
