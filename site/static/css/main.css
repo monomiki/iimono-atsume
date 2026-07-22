@@ -222,7 +222,8 @@ h2 { font-size: 1rem; letter-spacing: 0; margin: 0 0 12px; }
 
 .post-card__avatar {
   align-items: center;
-  background: linear-gradient(135deg, #5865f2, #00aff4);
+  background: #15171b;
+  border: 1px solid #3b424f;
   border-radius: 999px;
   color: white;
   display: grid;
@@ -232,6 +233,19 @@ h2 { font-size: 1rem; letter-spacing: 0; margin: 0 0 12px; }
   justify-content: center;
   overflow: hidden;
   width: 38px;
+}
+
+.post-card__avatar--fallback {
+  background: linear-gradient(135deg, #5865f2, #00aff4);
+  border-color: transparent;
+}
+
+.post-card__avatar img {
+  aspect-ratio: 1;
+  display: block;
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
 }
 
 .post-card__identity { min-width: 0; }

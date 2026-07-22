@@ -246,6 +246,8 @@ class PipelineTests(unittest.TestCase):
         )
         card = render_link_card(item)
         self.assertIn('data-source-key="youtube"', card)
+        self.assertIn('post-card__avatar post-card__avatar--image', card)
+        self.assertIn('<img src="https://cdn.example/poster.jpg"', card)
         self.assertIn("<video controls", card)
         self.assertIn("poster=", card)
         self.assertIn("https://cdn.example/video.mp4", card)

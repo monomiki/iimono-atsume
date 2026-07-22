@@ -58,7 +58,7 @@ def render_link_card(item: SiteItem) -> str:
     published = html.escape(item.published_at[:16].replace("T", " ") if item.published_at else item.daily_page)
     item_json = html.escape(json.dumps({"item_id": item.item_id, "daily_page": item.daily_page}, ensure_ascii=False), quote=True)
     media = render_media(item)
-    avatar_seed = html.escape((item.author or item.source or "?")[:2].upper())
+    avatar = render_avatar(item)
     is_preview_favorite = item.item_id == "preview_fav"
     details_open = " open" if item.item_id == "preview_open" else ""
     favorite_class = "favorite-button is-favorited" if is_preview_favorite else "favorite-button"
@@ -70,7 +70,7 @@ def render_link_card(item: SiteItem) -> str:
 <article class="post-card link-card" data-item-id="{html.escape(item.item_id, quote=True)}" data-category="{category}" data-source="{source}" data-source-key="{html.escape(source_key, quote=True)}" data-score="{item.score}" data-date="{html.escape(item.published_at or item.daily_page, quote=True)}" data-destination="{html.escape(item.destination, quote=True)}" data-discovery="{str(item.discovery).lower()}" data-favorite-state="{favorite_state}">
   <div class="post-card__content">
     <header class="post-card__author">
-      <div class="post-card__avatar" aria-hidden="true">{avatar_seed}</div>
+      {avatar}
       <div class="post-card__identity">
         <strong class="post-card__display-name">{author}</strong>
         <span class="post-card__handle">{html.escape(handle)} · {source}</span>
@@ -101,6 +101,26 @@ def render_link_card(item: SiteItem) -> str:
   </div>
 </article>
 """.strip()
+
+
+def render_avatar(item: SiteItem) -> str:
+    image_url = avatar_image_url_for(item)
+    label = html.escape((item.title or item.source or "リンク")[:40], quote=True)
+    if image_url:
+        src = html.escape(image_url, quote=True)
+        return f'<div class="post-card__avatar post-card__avatar--image"><img src="{src}" alt="{label}" loading="lazy" decoding="async"></div>'
+    avatar_seed = html.escape((item.author or item.source or "?")[:2].upper())
+    return f'<div class="post-card__avatar post-card__avatar--fallback" aria-hidden="true">{avatar_seed}</div>'
+
+
+def avatar_image_url_for(item: SiteItem) -> str:
+    if item.image_url:
+        return item.image_url
+    for image in item.images:
+        url = image.get("url", "")
+        if url:
+            return url
+    return ""
 
 
 def render_media(item: SiteItem) -> str:
