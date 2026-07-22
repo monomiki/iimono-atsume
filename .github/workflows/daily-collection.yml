@@ -45,7 +45,6 @@ jobs:
           FAVORITE_API_BASE_URL: ${{ vars.FAVORITE_API_BASE_URL }}
           FAVORITE_ALLOWED_ORIGIN: ${{ vars.FAVORITE_ALLOWED_ORIGIN }}
           DISCORD_DAILY_WEBHOOK_URL: ${{ secrets.DISCORD_DAILY_WEBHOOK_URL }}
-          DISCORD_CLIPBOARD_WEBHOOK_URL: ${{ secrets.DISCORD_CLIPBOARD_WEBHOOK_URL }}
       - name: Test
         run: python -m unittest discover -s tests
       - uses: actions/configure-pages@v5

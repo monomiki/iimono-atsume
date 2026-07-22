@@ -47,26 +47,7 @@ class DiscordNotifier(Notifier):
         return result
 
     def send_favorite(self, payload: Dict) -> Dict:
-        message = {
-            "content": "⭐ Favoriteに追加されました",
-            "embeds": [
-                {
-                    "title": payload["title"],
-                    "url": payload["url"],
-                    "description": payload.get("excerpt", "")[:240],
-                    "fields": [
-                        {"name": "投稿者", "value": payload.get("author") or "unknown", "inline": True},
-                        {"name": "カテゴリ", "value": payload.get("category") or "unknown", "inline": True},
-                        {"name": "推薦スコア", "value": str(payload.get("score", "-")), "inline": True},
-                        {"name": "Favorite日時", "value": payload.get("favorited_at", ""), "inline": False},
-                        {"name": "日次まとめ", "value": payload.get("daily_url", ""), "inline": False},
-                    ],
-                    "footer": {"text": "AI Daily Collection"},
-                }
-            ],
-        }
-        webhook_url = self.settings.discord_daily_webhook_url or self.settings.discord_clipboard_webhook_url
-        return self._post(webhook_url, message)
+        return {"status": "skipped", "reason": "favorite_discord_forwarding_disabled"}
 
     @staticmethod
     def _post(webhook_url: str, body: Dict) -> Dict:

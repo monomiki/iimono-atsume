@@ -2,8 +2,6 @@ export type Env = {
   FAVORITE_API_SECRET: string;
   FAVORITE_ALLOWED_ORIGIN: string;
   PUBLIC_DATA_BASE_URL: string;
-  DISCORD_DAILY_WEBHOOK_URL: string;
-  DISCORD_CLIPBOARD_WEBHOOK_URL: string;
   FAVORITES: KVNamespace;
 };
 

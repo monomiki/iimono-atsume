@@ -101,7 +101,7 @@ def index_body(dates: List[str], latest_items: List[SiteItem], all_items: List[S
 <section><h2>過去の日次まとめ</h2><ul class="archive-list">{daily_links}</ul></section>
 {render_count_section("カテゴリ別の件数", category_counts)}
 {render_count_section("情報源別の件数", source_counts)}
-<section><h2>最近Favoriteしたコンテンツ</h2><p id="recent-favorites">Favorite APIから読み込みます。</p></section>
+<section><h2>最近Favoriteしたコンテンツ</h2><p id="recent-favorites">各カードの星を付けると、FavoriteフィルターとFavorite優先ソートで使えます。</p></section>
 """
 
 
@@ -122,6 +122,7 @@ def filter_bar(category_counts: Counter, source_counts: Counter, show_date: bool
   {date_input}
   <select id="sort-filter" aria-label="並び替え">
     <option value="score">推薦スコア順</option>
+    <option value="favorite">Favorite優先</option>
     <option value="new">新着順</option>
   </select>
   <button type="button" class="density-toggle" data-density-toggle>標準表示</button>

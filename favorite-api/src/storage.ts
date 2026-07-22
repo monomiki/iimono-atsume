@@ -5,7 +5,7 @@ export type FavoriteRecord = {
   dedupe_key: string;
   daily_page: string;
   favorited_at: string;
-  discord_status: "sent" | "pending";
+  discord_status: "sent" | "pending" | "tagged";
   discord_message_id?: string;
 };
 
@@ -27,4 +27,3 @@ export async function putFavorite(env: Env, record: FavoriteRecord): Promise<voi
 export async function dedupeExists(env: Env, dedupeKey: string): Promise<boolean> {
   return Boolean(await env.FAVORITES.get(`dedupe:${dedupeKey}`));
 }
-

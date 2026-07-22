@@ -118,6 +118,11 @@
       });
       const visible = cards.filter((card) => !card.hidden);
       visible.sort((a, b) => {
+        if (sort === "favorite") {
+          const favoriteDelta = Number(b.dataset.favoriteState === "true") - Number(a.dataset.favoriteState === "true");
+          if (favoriteDelta) return favoriteDelta;
+          return Number(b.dataset.score || "0") - Number(a.dataset.score || "0");
+        }
         if (sort === "new") return String(b.dataset.date || "").localeCompare(String(a.dataset.date || ""));
         return Number(b.dataset.score || "0") - Number(a.dataset.score || "0");
       });

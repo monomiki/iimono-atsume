@@ -19,7 +19,6 @@ from src.utils import normalize_url, post_identity
 from src.config import Settings
 from src.config import daily_page_url
 from src.favorites.client import FavoriteService
-from src.notifications.discord import DiscordNotifier
 from src.site.builder import StaticSiteBuilder
 from src.site.cards import render_link_card, site_item_from_recommendation
 from src.site.metadata import enrich_link_metadata
@@ -208,6 +207,7 @@ class PipelineTests(unittest.TestCase):
             self.assertIn("post-card link-card", html)
             self.assertNotIn("favorite-button__label", html)
             self.assertNotIn("元投稿を見る", html)
+            self.assertIn("Favorite優先", html)
             self.assertIn("masonry-grid", html)
             self.assertNotIn("discord.example", html)
             self.assertNotIn("secret", html)
@@ -292,7 +292,7 @@ class PipelineTests(unittest.TestCase):
             self.assertEqual(first["status"], "skipped")
             self.assertEqual(second["reason"], "already_notified")
 
-    def test_favorite_registers_once_and_records_pending_when_discord_unconfigured(self):
+    def test_favorite_registers_once_as_sort_tag_without_discord(self):
         with tempfile.TemporaryDirectory() as tmp:
             settings = make_settings(tmp)
             job = DailyJob(settings)
@@ -303,41 +303,13 @@ class PipelineTests(unittest.TestCase):
             service = FavoriteService(settings, job.db)
             first = service.favorite(item.item_id, "2026-07-22", authenticated=True)
             second = service.favorite(item.item_id, "2026-07-22", authenticated=True)
-            self.assertEqual(first["discord_status"], "pending")
+            self.assertEqual(first["discord_status"], "tagged")
             self.assertEqual(second["status"], "already_favorited")
             self.assertEqual(service.favorite("missing", "2026-07-22", authenticated=True)["status"], "not_found")
             self.assertEqual(service.favorite(item.item_id, "2026-07-22", authenticated=False)["status"], "forbidden")
-            self.assertEqual(service.resend_pending()["sent"], 0)
+            self.assertEqual(service.resend_pending()["reason"], "favorite_discord_forwarding_disabled")
             rows = job.db.query("SELECT * FROM feedback WHERE action = 'web_favorite'")
             self.assertEqual(len(rows), 1)
-
-    def test_favorite_discord_uses_daily_webhook_first(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            settings = make_settings(
-                tmp,
-                discord_daily_webhook_url="https://discord.example/daily",
-                discord_clipboard_webhook_url="https://discord.example/clipboard",
-            )
-            db = Database(settings.database_url)
-            db.migrate()
-            seen = {}
-
-            def fake_post(webhook_url, body):
-                seen["webhook_url"] = webhook_url
-                seen["body"] = body
-                return {"status": "sent"}
-
-            with patch.object(DiscordNotifier, "_post", staticmethod(fake_post)):
-                result = DiscordNotifier(settings, db).send_favorite(
-                    {
-                        "title": "Favorite item",
-                        "url": "https://example.com/item",
-                        "daily_url": "https://example.com/daily/2026-07-22/",
-                    }
-                )
-
-            self.assertEqual(result["status"], "sent")
-            self.assertEqual(seen["webhook_url"], "https://discord.example/daily")
 
     def test_masonry_css_breakpoints_and_fallback_are_present(self):
         css = Path("site/static/css/main.css").read_text(encoding="utf-8")
@@ -357,6 +329,8 @@ class PipelineTests(unittest.TestCase):
         self.assertIn("ResizeObserver", js)
         self.assertIn("MutationObserver", js)
         self.assertIn("favorite-state-change", js)
+        self.assertIn("localStorage", Path("site/static/js/favorites.js").read_text(encoding="utf-8"))
+        self.assertIn('sort === "favorite"', js)
         self.assertIn("details", js)
         self.assertIn("load", js)
         self.assertIn("gridRowEnd", js)
