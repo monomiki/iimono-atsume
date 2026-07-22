@@ -47,3 +47,18 @@ jobs:
           path: public
       - id: deployment
         uses: actions/deploy-pages@v4
+      - name: Notify Discord
+        run: |
+          if [ -z "${PUBLISH_DATE}" ]; then
+            PUBLISH_DATE="$(TZ=Asia/Tokyo date +%F)"
+          fi
+          python -m src.cli notify-discord --date "${PUBLISH_DATE}" --force
+        env:
+          PUBLISH_DATE: ${{ inputs.date }}
+          DATABASE_URL: sqlite:///data/recommendations.db
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_ACTIONS: "true"
+          PUBLIC_SITE_BASE_URL: ${{ vars.PUBLIC_SITE_BASE_URL }}
+          PUBLIC_SITE_DOMAIN: ${{ vars.PUBLIC_SITE_DOMAIN }}
+          PUBLIC_SITE_PATH_PREFIX: /daily
+          DISCORD_DAILY_WEBHOOK_URL: ${{ secrets.DISCORD_DAILY_WEBHOOK_URL }}

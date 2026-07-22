@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from collections import Counter
 from datetime import datetime
 from typing import Dict, List, Optional, Tuple
@@ -163,15 +164,21 @@ class DailyJob:
 
     def notify_daily(self, run_date: str, page_url: str = "", recommendations: Optional[List[Recommendation]] = None, force: bool = False) -> Dict:
         recs = recommendations or []
-        category_counts = Counter(rec.category for rec in recs)
+        data_items = []
+        if not recs:
+            payload_path = ROOT / "data" / "daily" / f"{run_date}.json"
+            if payload_path.exists():
+                payload = json.loads(payload_path.read_text(encoding="utf-8"))
+                data_items = payload.get("items", [])
+        category_counts = Counter(rec.category for rec in recs) if recs else Counter(item.get("category", "") for item in data_items)
         payload = {
             "date": run_date,
             "page_url": page_url or daily_page_url(self.settings, run_date),
-            "total": len(recs),
-            "high": len([rec for rec in recs if rec.destination == "high" or rec.score >= 60]),
-            "discovery": len([rec for rec in recs if rec.candidate.discovery]),
+            "total": len(recs) if recs else len(data_items),
+            "high": len([rec for rec in recs if rec.destination == "high" or rec.score >= 60]) if recs else len([item for item in data_items if item.get("destination") == "high" or int(item.get("score", 0)) >= 60]),
+            "discovery": len([rec for rec in recs if rec.candidate.discovery]) if recs else len([item for item in data_items if item.get("discovery")]),
             "top_category": category_counts.most_common(1)[0][0] if category_counts else "未集計",
-            "top_score": max([rec.score for rec in recs], default="-"),
+            "top_score": max([rec.score for rec in recs], default="-") if recs else max([int(item.get("score", 0)) for item in data_items], default="-"),
             "force": force,
         }
         return DiscordNotifier(self.settings, self.db).send_daily(payload)
