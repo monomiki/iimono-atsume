@@ -7,8 +7,16 @@
   function setUnavailable() {
     buttons.forEach((button) => {
       button.disabled = true;
-      button.textContent = "Favorite機能を現在利用できません";
+      button.textContent = "☆";
+      button.setAttribute("aria-label", "Favorite機能を現在利用できません");
     });
+  }
+
+  function setFavoriteState(button, favorited) {
+    button.classList.toggle("is-favorited", favorited);
+    button.textContent = favorited ? "★" : "☆";
+    button.setAttribute("aria-label", favorited ? "Favorited" : "Favorite");
+    button.closest(".post-card")?.setAttribute("data-favorite-state", String(favorited));
   }
 
   async function loadFavorites() {
@@ -21,9 +29,7 @@
       buttons.forEach((button) => {
         const payload = JSON.parse(button.dataset.favorite || "{}");
         if (favoriteIds.has(payload.item_id)) {
-          button.classList.add("is-favorited");
-          button.innerHTML = '<span aria-hidden="true">★</span><span class="favorite-button__label"> Favorited</span>';
-          button.closest(".post-card")?.setAttribute("data-favorite-state", "true");
+          setFavoriteState(button, true);
         }
       });
       window.dispatchEvent(new CustomEvent("favorite-state-change"));
@@ -47,13 +53,12 @@
         body: JSON.stringify(payload),
       });
       if (!response.ok) throw new Error("favorite failed");
-      button.classList.add("is-favorited");
-      button.innerHTML = '<span aria-hidden="true">★</span><span class="favorite-button__label"> Favorited</span>';
-      button.closest(".post-card")?.setAttribute("data-favorite-state", "true");
+      setFavoriteState(button, true);
       window.dispatchEvent(new CustomEvent("favorite-state-change"));
     } catch (error) {
-      button.textContent = "Favorite失敗";
-      setTimeout(() => { button.innerHTML = '<span aria-hidden="true">☆</span><span class="favorite-button__label"> Favorite</span>'; }, 1800);
+      button.textContent = "!";
+      button.setAttribute("aria-label", "Favorite失敗");
+      setTimeout(() => { setFavoriteState(button, false); }, 1800);
     } finally {
       button.disabled = false;
       window.dispatchEvent(new CustomEvent("masonry:relayout"));

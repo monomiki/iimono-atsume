@@ -62,9 +62,8 @@ def render_link_card(item: SiteItem) -> str:
     is_preview_favorite = item.item_id == "preview_fav"
     details_open = " open" if item.item_id == "preview_open" else ""
     favorite_class = "favorite-button is-favorited" if is_preview_favorite else "favorite-button"
-    favorite_label = "★ Favorited" if is_preview_favorite else "☆ Favorite"
+    favorite_label = "★" if is_preview_favorite else "☆"
     favorite_state = "true" if is_preview_favorite else "false"
-    favorite_icon, favorite_text = favorite_label[0], favorite_label[1:]
     source_key = source_key_for(item)
     return f"""
 <article class="post-card link-card" data-item-id="{html.escape(item.item_id, quote=True)}" data-category="{category}" data-source="{source}" data-source-key="{html.escape(source_key, quote=True)}" data-score="{item.score}" data-date="{html.escape(item.published_at or item.daily_page, quote=True)}" data-destination="{html.escape(item.destination, quote=True)}" data-discovery="{str(item.discovery).lower()}" data-favorite-state="{favorite_state}">
@@ -72,14 +71,14 @@ def render_link_card(item: SiteItem) -> str:
     <header class="post-card__author">
       {avatar}
       <div class="post-card__identity">
-        <strong class="post-card__display-name">{author}</strong>
+        <a class="post-card__display-name" href="{url}" rel="noopener noreferrer" target="_blank">{author}</a>
         <span class="post-card__handle">{html.escape(handle)} · {source}</span>
       </div>
       <button class="{favorite_class}" type="button" data-favorite='{item_json}' aria-label="Favorite {title}">
-        <span aria-hidden="true">{favorite_icon}</span><span class="favorite-button__label">{html.escape(favorite_text)}</span>
+        <span aria-hidden="true">{favorite_label}</span>
       </button>
     </header>
-    <h3 class="post-card__title">{title}</h3>
+    <h3 class="post-card__title"><a href="{url}" rel="noopener noreferrer" target="_blank">{title}</a></h3>
     <p class="post-card__body" data-collapsible>{excerpt}</p>
     {media}
     <div class="post-card__ai-summary">
@@ -96,7 +95,6 @@ def render_link_card(item: SiteItem) -> str:
     <footer class="post-card__footer">
       <span>{source}</span>
       <span>{published}</span>
-      <a href="{url}" rel="noopener noreferrer" target="_blank">元投稿を見る</a>
     </footer>
   </div>
 </article>
@@ -130,7 +128,7 @@ def render_media(item: SiteItem) -> str:
         return render_video_media(item, images)
     if not images:
         return render_thumbnail_placeholder(item)
-    return render_image_grid(images)
+    return render_image_grid(images, link_url=item.url)
 
 
 def render_video_media(item: SiteItem, images: List[Dict[str, str]]) -> str:
@@ -148,7 +146,7 @@ def render_video_media(item: SiteItem, images: List[Dict[str, str]]) -> str:
 """.strip()
     if images:
         overlay = '<span class="post-card__play-badge" aria-hidden="true">PLAY</span>'
-        return render_image_grid(images[:1], extra_class="post-card__media--video-preview", overlay=overlay)
+        return render_image_grid(images[:1], extra_class="post-card__media--video-preview", overlay=overlay, link_url=item.url)
     return f"""
 <div class="post-card__media post-card__media--video" aria-label="動画">
   <a class="post-card__video-placeholder" href="{html.escape(item.url, quote=True)}" target="_blank" rel="noopener noreferrer">VIDEO</a>
@@ -156,7 +154,7 @@ def render_video_media(item: SiteItem, images: List[Dict[str, str]]) -> str:
 """.strip()
 
 
-def render_image_grid(images: List[Dict[str, str]], extra_class: str = "", overlay: str = "") -> str:
+def render_image_grid(images: List[Dict[str, str]], extra_class: str = "", overlay: str = "", link_url: str = "") -> str:
     visible = images[:4]
     more = max(0, len(images) - len(visible))
     image_html: List[str] = []
@@ -169,7 +167,11 @@ def render_image_grid(images: List[Dict[str, str]], extra_class: str = "", overl
         loading = "eager" if index == 0 else "lazy"
         badge = overlay if index == 0 else ""
         more_badge = f'<span class="post-card__more">+{more}</span>' if more and index == len(visible) - 1 else ""
-        image_html.append(f'<figure><img src="{src}" alt="{alt}"{attrs} loading="{loading}" decoding="async">{badge}{more_badge}</figure>')
+        content = f'<img src="{src}" alt="{alt}"{attrs} loading="{loading}" decoding="async">{badge}{more_badge}'
+        if link_url:
+            href = html.escape(link_url, quote=True)
+            content = f'<a href="{href}" rel="noopener noreferrer" target="_blank">{content}</a>'
+        image_html.append(f"<figure>{content}</figure>")
     classes = f'post-card__media post-card__media--count-{len(images)} {extra_class}'.strip()
     return f'<div class="{classes}">{"".join(image_html)}</div>'
 

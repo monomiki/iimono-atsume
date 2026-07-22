@@ -42,7 +42,7 @@ OPENAI_API_KEY=
 DATABASE_URL=sqlite:///data/recommendations.db
 TIMEZONE=Asia/Tokyo
 DAILY_RUN_TIME=07:00
-MAX_DAILY_ITEMS=30
+MAX_DAILY_ITEMS=100
 DRY_RUN=true
 ```
 
@@ -164,16 +164,16 @@ FAVORITE_ALLOWED_ORIGIN
 
 ## Discord連携
 
-日次まとめは`日々のまとめtest`チャンネル、Favoriteは`📎クリップボード`チャンネルへ投稿します。本番ではチャンネル名ではなくIDかWebhook URLを使います。
+日次まとめとFavoriteは`日々のまとめtest`チャンネルへ投稿します。本番ではチャンネル名ではなくIDかWebhook URLを使います。Favorite投稿は`DISCORD_DAILY_WEBHOOK_URL`を優先し、未設定の場合のみ`DISCORD_CLIPBOARD_WEBHOOK_URL`へフォールバックします。
 
 チャンネルIDの取得:
 
 1. Discordで開発者モードを有効化する
 2. 対象チャンネルを右クリックする
 3. `IDをコピー`を選ぶ
-4. `DISCORD_DAILY_CHANNEL_ID`または`DISCORD_CLIPBOARD_CHANNEL_ID`に設定する
+4. `DISCORD_DAILY_CHANNEL_ID`に設定する
 
-Botを使う場合はDiscord Developer PortalでBotを作成し、最小権限として`View Channel`、`Send Messages`、`Embed Links`、必要に応じて`Read Message History`を付けます。Webhookを使う場合は、日次まとめ用とFavorite用で別々のWebhookを作り、URLはSecretsに保存します。
+Botを使う場合はDiscord Developer PortalでBotを作成し、最小権限として`View Channel`、`Send Messages`、`Embed Links`、必要に応じて`Read Message History`を付けます。Webhookを使う場合は、日次まとめ用Webhook URLをSecretsに保存します。
 
 同じ日付の日次通知はSQLiteの`discord_notifications`テーブルで重複防止します。標準では既存通知があれば再投稿しません。
 
@@ -198,7 +198,7 @@ npm install
 npm test
 npx wrangler kv namespace create FAVORITES
 npx wrangler secret put FAVORITE_API_SECRET
-npx wrangler secret put DISCORD_CLIPBOARD_WEBHOOK_URL
+npx wrangler secret put DISCORD_DAILY_WEBHOOK_URL
 npx wrangler deploy
 ```
 

@@ -43,7 +43,8 @@ export default {
         const existing = await getFavorite(env, parsed.item_id);
         if (existing || await dedupeExists(env, dedupeKey)) return jsonResponse(env, request, { status: "already_favorited", item_id: parsed.item_id });
         const dailyUrl = `${env.PUBLIC_DATA_BASE_URL.replace(/\/$/, "")}/daily/${parsed.daily_page}/`;
-        const discord = await postFavoriteToDiscord(env.DISCORD_CLIPBOARD_WEBHOOK_URL, item, dailyUrl);
+        const discordWebhookUrl = env.DISCORD_DAILY_WEBHOOK_URL || env.DISCORD_CLIPBOARD_WEBHOOK_URL;
+        const discord = await postFavoriteToDiscord(discordWebhookUrl, item, dailyUrl);
         await putFavorite(env, { item_id: parsed.item_id, dedupe_key: dedupeKey, daily_page: parsed.daily_page, favorited_at: new Date().toISOString(), discord_status: discord.status, discord_message_id: discord.id });
         return jsonResponse(env, request, { status: "favorited", item_id: parsed.item_id, discord_status: discord.status });
       }
@@ -58,4 +59,3 @@ export default {
     }
   },
 };
-

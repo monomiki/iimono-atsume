@@ -37,6 +37,7 @@ jobs:
           INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
           DATABASE_URL: sqlite:///data/recommendations.db
           TIMEZONE: Asia/Tokyo
+          MAX_DAILY_ITEMS: "100"
           DRY_RUN: "false"
           PUBLIC_SITE_DOMAIN: ${{ vars.PUBLIC_SITE_DOMAIN }}
           PUBLIC_SITE_BASE_URL: ${{ vars.PUBLIC_SITE_BASE_URL }}

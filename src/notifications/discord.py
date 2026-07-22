@@ -65,7 +65,8 @@ class DiscordNotifier(Notifier):
                 }
             ],
         }
-        return self._post(self.settings.discord_clipboard_webhook_url, message)
+        webhook_url = self.settings.discord_daily_webhook_url or self.settings.discord_clipboard_webhook_url
+        return self._post(webhook_url, message)
 
     @staticmethod
     def _post(webhook_url: str, body: Dict) -> Dict:
@@ -89,4 +90,3 @@ class DiscordNotifier(Notifier):
                     continue
                 return {"status": "failed", "error": str(exc)}
         return {"status": "failed"}
-

@@ -19,6 +19,7 @@ from src.utils import normalize_url, post_identity
 from src.config import Settings
 from src.config import daily_page_url
 from src.favorites.client import FavoriteService
+from src.notifications.discord import DiscordNotifier
 from src.site.builder import StaticSiteBuilder
 from src.site.cards import render_link_card, site_item_from_recommendation
 from src.site.metadata import enrich_link_metadata
@@ -205,7 +206,8 @@ class PipelineTests(unittest.TestCase):
             result = StaticSiteBuilder(settings).build_daily("2026-07-22", recs[:2], {"candidates": 2, "duplicates": 0})
             html = Path(result["daily_path"]).read_text(encoding="utf-8")
             self.assertIn("post-card link-card", html)
-            self.assertIn("favorite-button__label", html)
+            self.assertNotIn("favorite-button__label", html)
+            self.assertNotIn("元投稿を見る", html)
             self.assertIn("masonry-grid", html)
             self.assertNotIn("discord.example", html)
             self.assertNotIn("secret", html)
@@ -226,6 +228,9 @@ class PipelineTests(unittest.TestCase):
             self.assertIn(item.item_id, card)
             self.assertIn("post-card__author", card)
             self.assertIn("post-card__details", card)
+            self.assertIn(f'<a class="post-card__display-name" href="{item.url}"', card)
+            self.assertIn(f'<h3 class="post-card__title"><a href="{item.url}"', card)
+            self.assertNotIn("元投稿を見る", card)
 
     def test_link_card_renders_thumbnail_video_and_source_accent_key(self):
         item = site_item_from_recommendation(
@@ -251,6 +256,28 @@ class PipelineTests(unittest.TestCase):
         self.assertIn("<video controls", card)
         self.assertIn("poster=", card)
         self.assertIn("https://cdn.example/video.mp4", card)
+
+    def test_image_thumbnail_links_to_source_and_favorite_is_star_only(self):
+        item = site_item_from_recommendation(
+            RecommendationScorer().score(
+                Candidate(
+                    "Image sample",
+                    "https://example.com/post",
+                    "web",
+                    text="typography",
+                    media_type="image",
+                    image_url="https://cdn.example/thumb.jpg",
+                ),
+                "design_graphic",
+                {"categories": []},
+            ),
+            "2026-07-22",
+        )
+        card = render_link_card(item)
+        self.assertIn('<a href="https://example.com/post" rel="noopener noreferrer" target="_blank"><img src="https://cdn.example/thumb.jpg"', card)
+        self.assertIn('aria-label="Favorite Image sample"', card)
+        self.assertIn('<span aria-hidden="true">☆</span>', card)
+        self.assertNotIn("Favorite</span>", card)
 
     def test_daily_page_url_uses_configured_domain(self):
         settings = make_settings(public_site_domain="イキモノ.コム", public_site_base_url="https://イキモノ.コム")
@@ -283,6 +310,34 @@ class PipelineTests(unittest.TestCase):
             self.assertEqual(service.resend_pending()["sent"], 0)
             rows = job.db.query("SELECT * FROM feedback WHERE action = 'web_favorite'")
             self.assertEqual(len(rows), 1)
+
+    def test_favorite_discord_uses_daily_webhook_first(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            settings = make_settings(
+                tmp,
+                discord_daily_webhook_url="https://discord.example/daily",
+                discord_clipboard_webhook_url="https://discord.example/clipboard",
+            )
+            db = Database(settings.database_url)
+            db.migrate()
+            seen = {}
+
+            def fake_post(webhook_url, body):
+                seen["webhook_url"] = webhook_url
+                seen["body"] = body
+                return {"status": "sent"}
+
+            with patch.object(DiscordNotifier, "_post", staticmethod(fake_post)):
+                result = DiscordNotifier(settings, db).send_favorite(
+                    {
+                        "title": "Favorite item",
+                        "url": "https://example.com/item",
+                        "daily_url": "https://example.com/daily/2026-07-22/",
+                    }
+                )
+
+            self.assertEqual(result["status"], "sent")
+            self.assertEqual(seen["webhook_url"], "https://discord.example/daily")
 
     def test_masonry_css_breakpoints_and_fallback_are_present(self):
         css = Path("site/static/css/main.css").read_text(encoding="utf-8")

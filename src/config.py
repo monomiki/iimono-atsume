@@ -71,7 +71,7 @@ def load_settings() -> Settings:
         database_url=os.getenv("DATABASE_URL", "sqlite:///data/recommendations.db"),
         timezone=os.getenv("TIMEZONE", "Asia/Tokyo"),
         daily_run_time=os.getenv("DAILY_RUN_TIME", "07:00"),
-        max_daily_items=int(os.getenv("MAX_DAILY_ITEMS", "30")),
+        max_daily_items=int(os.getenv("MAX_DAILY_ITEMS", "100")),
         dry_run=os.getenv("DRY_RUN", "true").lower() in {"1", "true", "yes", "on"},
         reports_dir=ROOT / "reports",
         profiles_dir=ROOT / "data",

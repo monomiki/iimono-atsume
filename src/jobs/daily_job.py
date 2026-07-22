@@ -78,7 +78,7 @@ class DailyJob:
         classifier = CategoryClassifier()
         scorer = RecommendationScorer(FeedbackStore(self.db).score_adjustments())
         recommendations = [scorer.score(candidate, classifier.classify(candidate, profile), profile) for candidate in unique]
-        recommendations = apply_diversity(recommendations)
+        recommendations = apply_diversity(recommendations, max_per_author=8, max_per_category=24)
         return recommendations, duplicates, len(candidates)
 
     def save_recommendations(self, recommendations: List[Recommendation], dry_run: bool) -> List[Recommendation]:
